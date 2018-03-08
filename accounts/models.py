@@ -1,19 +1,17 @@
 from django.db import models
 from django.utils import timezone
-
-
 from django.contrib.auth.models import User
 
 class Klassen(models.Model):
     bezeichnung = models.CharField(max_length=5)
+    lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
     class Meta:
         verbose_name_plural = 'Klassen'
     def __str__(self):
         return self.bezeichnung
 
-# klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE)
-# klasse.contribute_to_class(User, 'klasse')
-
+klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE, blank=True, null=True)
+klasse.contribute_to_class(User, 'klasse')
 
 class Engvoc(models.Model):
     eng = models.CharField(max_length=200)
@@ -33,7 +31,6 @@ class Ger(models.Model):
     def __str__(self):
         return self.text
 
-#
 # class Fach(models.Model):
 #     title = models.CharField(max_length=200)
 #     class Meta:
