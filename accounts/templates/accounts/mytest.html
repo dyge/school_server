@@ -1,0 +1,27 @@
+{% extends "base_schueler.html" %}
+{% load bootstrap3 %}
+{% block body %}
+<h4>Test</h4>
+{% for i in voc %}
+  <p>{{ i.eng }}:</p>
+  <p>-</p>
+{% endfor %}
+<!-- <form method="POST" action="{% url 'accounts:new_eng' %}">
+  {% csrf_token %}
+  <input type="text" name="answer1">
+  <input type="text" name="answer2">
+  <input type="text" name="answer3">
+  <input type="text" name="answer4">
+  <input type="text" name="answer5">
+	<input type="submit" value="Prüfen" class="btn btn-primary">
+</form> -->
+<!-- {% for i in voc %}
+  <ul>
+    <li>{{ i.eng }}:</li>
+    {% for j in i.ger_set.all %}
+      <li>{{ j }}</li>
+    {% endfor %}
+  </ul>
+  <p>-</p>
+{% endfor %} -->
+{% endblock %}

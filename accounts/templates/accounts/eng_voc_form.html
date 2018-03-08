@@ -1,0 +1,15 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block body %}
+<h4>Vokabel hinzufügen</h4>
+<!-- Delete checkboxes should be removed -->
+<form method="POST" action="{% url 'accounts:new_eng' %}" id="engForm">
+	{% csrf_token %}
+  {{ formset.management_form }}
+	{% bootstrap_form form %}
+  {% for form in formset %}
+    {{ form.as_p }}
+  {% endfor %}
+	<input type="submit" value="Hinzufügen" class="btn btn-primary">
+</form>
+{% endblock %}
