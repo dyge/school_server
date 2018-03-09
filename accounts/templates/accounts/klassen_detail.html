@@ -1,0 +1,21 @@
+{% extends "base_lehrer.html" %}
+{% load auth_extras %}
+{% load bootstrap3 %}
+{% block styling %}
+li{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<h3>Klasse {{ klassen.bezeichnung }} - Klassenleiter: {{ klassen.lehrer }}</h3>
+<h4>Schüler:</h4>
+<ul>
+  {% for schueler in benutzer %}
+    {% if not schueler|has_group:"Lehrer" %}
+        <li>{{ schueler.username }}</li>
+    {% endif %}
+  {% empty %}
+    <li>Keine Schüler.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

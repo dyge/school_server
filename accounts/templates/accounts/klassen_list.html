@@ -8,7 +8,7 @@ li{
 {% block body %}
 <h4>Klassen:</h4>
 {% for klass in object_list %}
-    <li><a href="#">{{ klass.bezeichnung }}</a> - Klassenleiter: {{ klass.lehrer }}</li>
+    <li><a href="{% url 'accounts:schueleruebersicht' pk=klass.id %}">{{ klass.bezeichnung }}</a> - Klassenleiter: {{ klass.lehrer }}</li>
 {% empty %}
     <li>Keine Klassen.</li>
 {% endfor %}

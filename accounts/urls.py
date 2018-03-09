@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'new_schueler/$', views.signup, name='newschueler'),
     url(r'klassen/$', views.KlassenListView.as_view(), name='klassenuebersicht'),
     url(r'klassen/erstellen/$', views.KlasseCreateView.as_view(), name='newklasse'),
-    # url(r'/(?P<pk>\d+)/klassen/$', views.KlassenDetailView.as_view(), name='schueleruebersicht'),
+    url(r'nummer/(?P<pk>\d+)/$', views.KlassenDetailView.as_view(), name='schueleruebersicht'),
 ]
