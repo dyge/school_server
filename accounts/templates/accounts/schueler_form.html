@@ -1,0 +1,10 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block body %}
+<h4>Schüler hinzufügen</h4>
+<form method="POST" action="" id="sForm">
+	{% csrf_token %}
+  {{ form.as_p }}
+	<input type="submit" value="Hinzufügen" class="btn btn-primary">
+</form>
+{% endblock %}

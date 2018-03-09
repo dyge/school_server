@@ -1,5 +1,7 @@
 from django import forms
 from . import models
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class UserForm(forms.Form):
     username = forms.CharField(required=True,max_length=200)
@@ -9,3 +11,9 @@ class EngForm(forms.ModelForm):
     class Meta:
         fields = ['eng',]
         model = models.Engvoc
+
+class SchuelerForm(UserCreationForm):
+    klasse = forms.ModelChoiceField(queryset=models.Klassen.objects.all())
+    class Meta:
+        fields = ['username', 'email', 'klasse', 'password1', 'password2']
+        model = User

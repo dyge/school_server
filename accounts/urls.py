@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'new/$', views.EngVocCreate.as_view(), name="new_eng"),
     url(r'test_going/$', views.test_view,name='mytest'),
     url(r'test_question/$', views.Testqu.as_view(),name='testqu'),
+    url(r'new_schueler/$', views.signup, name='newschueler')
 ]
