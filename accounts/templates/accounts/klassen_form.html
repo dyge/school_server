@@ -1,9 +1,10 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
 {% block body %}
-<h4>Schüler hinzufügen</h4>
-<form method="POST" action="" id="sForm">
+<h4>Klasse hinzufügen</h4>
+<form method="POST" action="{% url 'accounts:newklasse' %}" id="klasseForm">
 	{% csrf_token %}
+	<!-- {% bootstrap_form form %} -->
   {{ form.as_p }}
 	<input type="submit" value="Hinzufügen" class="btn btn-info">
 </form>
