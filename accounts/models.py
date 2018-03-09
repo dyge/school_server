@@ -13,6 +13,15 @@ class Klassen(models.Model):
 klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE, blank=True, null=True)
 klasse.contribute_to_class(User, 'klasse')
 
+class Fach(models.Model):
+    title = models.CharField(max_length=300)
+    lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
+    klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE)
+    class Meta:
+        verbose_name_plural = 'Fächer'
+    def __str__(self):
+        return self.title
+
 class Engvoc(models.Model):
     eng = models.CharField(max_length=200)
     ndatum = models.DateField(blank=True)
