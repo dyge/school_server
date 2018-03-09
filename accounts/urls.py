@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'klassen/$', views.KlassenListView.as_view(), name='klassenuebersicht'),
     url(r'klassen/erstellen/$', views.KlasseCreateView.as_view(), name='newklasse'),
     url(r'nummer/(?P<pk>\d+)/$', views.KlassenDetailView.as_view(), name='schueleruebersicht'),
+    url(r'schueler/(?P<pk>\d+)/$', views.SchuelerUpdateView.as_view(), name='schuelerchange'),
 ]

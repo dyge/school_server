@@ -12,7 +12,7 @@ li{
 <ul>
   {% for schueler in benutzer %}
     {% if not schueler|has_group:"Lehrer" %}
-        <li>{{ schueler.username }}</li>
+        <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>
     {% endif %}
   {% empty %}
     <li>Keine Schüler.</li>

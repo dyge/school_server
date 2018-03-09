@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -9,13 +9,19 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from random import randint
 from django.contrib.auth.models import User
+
+class SchuelerUpdateView(UpdateView):
+    model = User
+    fields = ['username', 'email', 'klasse']
+    template_name = 'accounts/user_update_form.html'
+    success_url = reverse_lazy('accounts:klassenuebersicht')
 
 class KlassenDetailView(DetailView):
     model = models.Klassen

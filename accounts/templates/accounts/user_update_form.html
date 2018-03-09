@@ -1,0 +1,10 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block body %}
+<h4>Schüler:</h4>
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Ändern" />
+</form>
+{% endblock %}
