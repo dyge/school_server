@@ -14,6 +14,9 @@
       p{
         color: #FFFAFF;
       }
+      h1{
+        color: #FFFAFF;
+      }
       a{
         color: #00ADB5;
       }
@@ -30,12 +33,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          {% block mynav %}{% endblock %}
+          <a class="navbar-brand" href="{% url 'home' %}">Home</a>
         </div>
         <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">About</a></li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
               <li class="nav-item"><a href="{% url 'accounts:logout' %}" class="btn btn-simple nav-link">Logout</a></li>
+            {% else %}
+              <li class="nav-item"><a href="{% url 'accounts:login' %}" class="btn btn-simple nav-link">Login</a></li>
             {% endif %}
           </ul>
         </div>

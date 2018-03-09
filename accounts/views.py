@@ -6,11 +6,19 @@ from .forms import UserForm, EngForm, SchuelerForm
 from . import models
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from random import randint
+
+class KlassenDetailView(DetailView):
+    model = models.Klassen
+
+class KlassenListView(ListView):
+    model = models.Klassen
 
 def signup(request):
     if request.method == 'POST':

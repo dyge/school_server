@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'new/$', views.EngVocCreate.as_view(), name="new_eng"),
     url(r'test_going/$', views.test_view,name='mytest'),
     url(r'test_question/$', views.Testqu.as_view(),name='testqu'),
-    url(r'new_schueler/$', views.signup, name='newschueler')
+    url(r'new_schueler/$', views.signup, name='newschueler'),
+    url(r'klassen/$', views.KlassenListView.as_view(), name='klassenuebersicht'),
+    # url(r'/(?P<pk>\d+)/klassen/$', views.KlassenDetailView.as_view(), name='schueleruebersicht'),
 ]

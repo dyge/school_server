@@ -1,10 +1,16 @@
 {% extends "base_lehrer.html" %}
+{% block styling %}
+h3{
+  color: #FFFAFF;
+}
+{% endblock %}
 {% block body %}
-<h2>Lehrer</h2>
+<h3>Lehrer</h3>
 <p>Vokabeln hinzufügen</p>
 <ul>
   <li><a href="{% url 'accounts:new_eng' %}">Englisch</a></li>
   <li><a href="#">Latein</a></li>
 </ul>
 <p><a href="{% url 'accounts:newschueler' %}">Schüler hinzufügen</a></p>
+<p><a href="{% url 'accounts:klassenuebersicht' %}">Klassen</a></p>
 {% endblock %}

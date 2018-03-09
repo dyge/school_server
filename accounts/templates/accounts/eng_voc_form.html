@@ -1,5 +1,10 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
+{% block styling %}
+h4{
+  color: #FFFAFF;
+}
+{% endblock %}
 {% block body %}
 <h4>Vokabel hinzufügen</h4>
 <!-- Delete checkboxes should be removed -->
@@ -10,6 +15,6 @@
   {% for form in formset %}
     {{ form.as_p }}
   {% endfor %}
-	<input type="submit" value="Hinzufügen" class="btn btn-primary">
+	<input type="submit" value="Hinzufügen" class="btn btn-info">
 </form>
 {% endblock %}

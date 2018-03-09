@@ -1,5 +1,11 @@
 {% extends "base_schueler.html" %}
+{% load staticfiles %}
+{% block styling %}
+h3{
+  color: #FFFAFF;
+}
+{% endblock %}
 {% block body %}
-<h2>Schüler</h2>
-<p><a href="{% url 'accounts:testqu' %}">Test starten</a></p>
+<h3>Schüler</h3>
+<p>Hier kann der Vokabel-Test gestartet werden: <a href="{% url 'accounts:testqu' %}">Test starten</a></p>
 {% endblock %}
