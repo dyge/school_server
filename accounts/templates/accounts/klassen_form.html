@@ -1,5 +1,19 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+li{
+  color: #FFFAFF;
+}
+input{
+	color: #000000;
+}
+.myklasse{
+  color: #000000;
+}
+{% endblock %}
 {% block body %}
 <h4>Klasse hinzufügen</h4>
 <form method="POST" action="{% url 'accounts:newklasse' %}" id="klasseForm">

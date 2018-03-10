@@ -16,6 +16,7 @@ class SchuelerForm(UserCreationForm):
     klasse = forms.ModelChoiceField(queryset=models.Klassen.objects.all())
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['klasse'].widget.attrs.update({'class' : 'myklasse'})
         self.fields['password1'].required = False
         self.fields['password2'].required = False
         self.fields['password1'].widget.attrs['autocomplete'] = 'off'
