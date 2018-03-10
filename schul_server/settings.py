@@ -124,3 +124,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_HOST_USER = 'sina.andreas@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sina1a2b'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

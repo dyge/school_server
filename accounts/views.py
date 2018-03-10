@@ -16,6 +16,11 @@ from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from random import randint
 from django.contrib.auth.models import User
+from django.contrib import messages #
+
+def get_user_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'accounts/user_profile.html', {"user":user})
 
 class SchuelerUpdateView(UpdateView):
     model = User

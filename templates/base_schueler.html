@@ -2,3 +2,6 @@
 {% block mynav %}
 <a class="navbar-brand" href="{% url 'accounts:index_schueler' %}">School</a>
 {% endblock %}
+{% block mynavsecond %}
+<li><a href="{% url 'accounts:schuelerprofil' username=user.get_username %}">Profil</a></li>
+{% endblock %}

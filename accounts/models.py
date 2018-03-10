@@ -13,6 +13,30 @@ class Klassen(models.Model):
 klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE, blank=True, null=True)
 klasse.contribute_to_class(User, 'klasse')
 
+from django.contrib.auth.hashers import make_password
+from django.db.models.signals import pre_save
+def create_profile(sender,instance, *args, **kwargs):
+    # user = kwargs["instance"]
+    # user_profile = UserProfile(user=user)
+    if not instance.password:
+        instance.password = make_password('qwertzuiop')
+
+    # user = kwargs["instance"]
+#     if kwargs["password"]:
+#         user_profile = UserProfile(user=user)
+#         user_profile.save()
+#     else:
+#         kwargs["password"] = 'qwertzuiop'
+pre_save.connect(create_profile, sender=User)
+
+
+# class CustomUser(User):
+#     class Meta:
+#         proxy = True
+#     def save(self, *args, **kwargs):
+#         # before saving
+#         super(CustomUser, self).save(*args, **kwargs)
+
 class Fach(models.Model):
     title = models.CharField(max_length=300)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
