@@ -17,6 +17,7 @@ from django.utils import timezone
 from random import randint
 from django.contrib.auth.models import User
 from django.contrib import messages #
+from django.core.mail import send_mail
 
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
@@ -51,8 +52,12 @@ def signup(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
+            mail = form.cleaned_data.get('email')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            link = 'http://127.0.0.1:8000/accounts/password_reset/'
+            msg = 'Registrierung von %s (mit der E-Mail Adresse %s), Link zum Registrieren: %s' %(username, mail, link)
+            send_mail('Registrierung',msg,'sina.andreas@gmail.com',[mail],fail_silently=True)
             return redirect('home')
     else:
         form = SchuelerForm()

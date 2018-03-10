@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from django.db.models.signals import pre_save
 
 class Klassen(models.Model):
     bezeichnung = models.CharField(max_length=5)
@@ -13,29 +15,11 @@ class Klassen(models.Model):
 klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE, blank=True, null=True)
 klasse.contribute_to_class(User, 'klasse')
 
-from django.contrib.auth.hashers import make_password
-from django.db.models.signals import pre_save
 def create_profile(sender,instance, *args, **kwargs):
-    # user = kwargs["instance"]
-    # user_profile = UserProfile(user=user)
     if not instance.password:
         instance.password = make_password('qwertzuiop')
 
-    # user = kwargs["instance"]
-#     if kwargs["password"]:
-#         user_profile = UserProfile(user=user)
-#         user_profile.save()
-#     else:
-#         kwargs["password"] = 'qwertzuiop'
 pre_save.connect(create_profile, sender=User)
-
-
-# class CustomUser(User):
-#     class Meta:
-#         proxy = True
-#     def save(self, *args, **kwargs):
-#         # before saving
-#         super(CustomUser, self).save(*args, **kwargs)
 
 class Fach(models.Model):
     title = models.CharField(max_length=300)
