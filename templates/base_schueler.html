@@ -1,7 +1,18 @@
 {% extends "base.html" %}
+{% load gravatar %}
+{% load bootstrap3 %}
 {% block mynav %}
 <a class="navbar-brand" href="{% url 'accounts:index_schueler' %}">School</a>
 {% endblock %}
 {% block mynavsecond %}
-<li><a href="{% url 'accounts:schuelerprofil' username=user.get_username %}">Profil</a></li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="img-circle" src="{% gravatar_url user.email 25 %}" alt="Not found"></a>
+  <ul class="dropdown-menu">
+    <li><a href="{% url 'accounts:schuelerprofil' username=user.get_username %}">Profil</a></li>
+    {% if user.is_authenticated %}
+      <li role="separator" class="divider"></li>
+      <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+    {% endif %}
+  </ul>
+</li>
 {% endblock %}

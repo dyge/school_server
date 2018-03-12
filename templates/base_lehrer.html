@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block mynavsecond %}
+  {% if user.is_authenticated %}
+    <li class="nav-item"><a href="{% url 'accounts:logout' %}" class="btn btn-simple nav-link">Logout</a></li>
+  {% endif %}
+{% endblock %}
 {% block mynav %}
 <a class="navbar-brand" href="{% url 'accounts:index_lehrer' %}">School</a>
 {% endblock %}

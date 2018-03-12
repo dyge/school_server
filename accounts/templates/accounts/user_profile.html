@@ -1,5 +1,6 @@
 {% extends "base_schueler.html" %}
 {% load staticfiles %}
+{% load gravatar %}
 {% block styling %}
 p{
   color: #FFFAFF;
@@ -7,6 +8,7 @@ p{
 {% endblock %}
 {% block body %}
 <h3>Profil</h3>
+{% gravatar user.email 80 %}
 <p>Vollständiger Name: {{ user.username }}</p>
 <p>Email-Adresse: {{ user.email }}</p>
 <p>Klasse: {{ user.klasse }}</p>
