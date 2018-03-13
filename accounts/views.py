@@ -19,9 +19,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+def get_lehrer_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'accounts/lehrer_profile.html', {"user":user})
+
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
     return render(request, 'accounts/user_profile.html', {"user":user})
+
+class Uebersicht(TemplateView):
+    template_name = "accounts/uebersicht.html"
 
 class SchuelerUpdateView(UpdateView):
     model = User

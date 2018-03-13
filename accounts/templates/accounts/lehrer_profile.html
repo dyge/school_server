@@ -1,4 +1,4 @@
-{% extends "base_schueler.html" %}
+{% extends "base_lehrer.html" %}
 {% load staticfiles %}
 {% load gravatar %}
 {% block styling %}
@@ -13,6 +13,5 @@ p{
 <p></p>
 <p>Vollständiger Name: {{ user.username }}</p>
 <p>Email-Adresse: {{ user.email }}</p>
-<p>Klasse: {{ user.klasse }}</p>
 <p><a href="{% url 'accounts:changepwd' %}">Passwort ändern</a></p>
 {% endblock %}

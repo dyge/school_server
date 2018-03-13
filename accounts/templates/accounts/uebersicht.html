@@ -1,0 +1,11 @@
+{% extends "base_lehrer.html" %}
+{% block styling %}
+p, li{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<h3>Übersicht</h3>
+<p><a href="{% url 'accounts:newschueler' %}">Schüler hinzufügen</a></p>
+<p><a href="{% url 'accounts:klassenuebersicht' %}">Klassen</a> oder <a href="{% url 'accounts:newklasse' %}">Klasse hinzufügen</a></p>
+{% endblock %}
