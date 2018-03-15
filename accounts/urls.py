@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'test_going/$', views.test_view,name='mytest'),
     url(r'test_question/$', views.Testqu.as_view(),name='testqu'),
     url(r'new_schueler/$', views.signup, name='newschueler'),
-    url(r'verwaltung/$', views.Uebersicht.as_view(), name='uebersicht'),
+    url(r'verwaltung/$', views.uebersicht, name='uebersicht'),
+    url(r'kurs/(?P<pk>\d+)/$', views.KursDetailView.as_view(), name='kursdetail'),
     url(r'klassen/$', views.KlassenListView.as_view(), name='klassenuebersicht'),
     url(r'klassen/erstellen/$', views.KlasseCreateView.as_view(), name='newklasse'),
     url(r'nummer/(?P<pk>\d+)/$', views.KlassenDetailView.as_view(), name='schueleruebersicht'),
@@ -26,4 +27,7 @@ urlpatterns = [
     url(r'password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
     url(r'reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',auth_views.password_reset_confirm,{'post_reset_redirect':'accounts:password_reset_complete'}, name='password_reset_confirm'),
     url(r'reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    url(r'schueler/delete/(?P<pk>\d+)/$', views.SchuelerDelete.as_view(), name='schueler_del'),
+    url(r'kurs/delete/(?P<pk>\d+)/$', views.KursDelete.as_view(), name='kurs_del'),
+    url(r'kurs/erstellen/$', views.KursCreate.as_view(), name='newkurs'),
 ]

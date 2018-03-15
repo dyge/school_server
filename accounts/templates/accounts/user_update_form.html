@@ -13,6 +13,9 @@ input{
 .myklasse{
   color: #000000;
 }
+.mybutton{
+  color: #000000;
+}
 {% endblock %}
 {% block body %}
 <h4>Schüler:</h4>
@@ -20,5 +23,7 @@ input{
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Ändern" />
+  <a class="btn btn-danger mybutton" href="{% url 'accounts:schueler_del' pk=object.id %}">Löschen</a>  <!-- <button type="button" name="button"></button> -->
+  <!-- <a href="#">Löschen</a> -->
 </form>
 {% endblock %}

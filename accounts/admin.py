@@ -5,13 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django import forms
 
-# class FachInline(admin.TabularInline):
-#     model = models.Fach
-#     extra = 5
-#
-# class KlassenAdmin(admin.ModelAdmin):
-#     inlines = [FachInline]
-
 class GerInline(admin.TabularInline):
     model = models.Ger
     extra = 1
@@ -47,6 +40,8 @@ UserAdmin.add_fieldsets = (
 )
 
 admin.site.register(models.Engvoc, EngAdmin)
-admin.site.register(models.Klassen) #, KlassenAdmin
+admin.site.register(models.Kurs)
+admin.site.register(models.Klassen)
+admin.site.register(models.Fach)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

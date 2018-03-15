@@ -23,12 +23,27 @@ pre_save.connect(create_profile, sender=User)
 
 class Fach(models.Model):
     title = models.CharField(max_length=300)
-    lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
-    klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE)
     class Meta:
         verbose_name_plural = 'Fächer'
     def __str__(self):
         return self.title
+
+class Kurs(models.Model):
+    # klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE)
+    # fach = models.ForeignKey(Fach, on_delete=models.CASCADE)
+    bezeichnung = models.CharField(max_length=500, blank=True, null=True)
+    lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
+    teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer')   # , on_delete=models.CASCADE, related_name='Nutzer'
+    class Meta:
+        verbose_name_plural = 'Kurse'
+    def __str__(self):
+        return self.bezeichnung
+
+def create_kurs(sender,instance, *args, **kwargs):
+    if not instance.bezeichnung:
+        instance.bezeichnung = str(instance.fach) + ' ' + str(instance.klasse)
+
+pre_save.connect(create_kurs, sender=Kurs)
 
 class Engvoc(models.Model):
     eng = models.CharField(max_length=200)

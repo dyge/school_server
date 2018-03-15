@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
@@ -19,6 +19,22 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class KursCreate(CreateView):
+    model = models.Kurs
+    fields = ['bezeichnung', 'lehrer', 'teilnehmer', ]
+    success_url = reverse_lazy('accounts:uebersicht')
+
+class KursDelete(DeleteView):
+    model = models.Kurs
+    success_url = reverse_lazy('home')
+
+class SchuelerDelete(DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+
+class KursDetailView(DetailView):
+    model = models.Kurs
+
 def get_lehrer_profile(request, username):
     user = User.objects.get(username=username)
     return render(request, 'accounts/lehrer_profile.html', {"user":user})
@@ -27,8 +43,12 @@ def get_user_profile(request, username):
     user = User.objects.get(username=username)
     return render(request, 'accounts/user_profile.html', {"user":user})
 
-class Uebersicht(TemplateView):
-    template_name = "accounts/uebersicht.html"
+def uebersicht(request):
+    kurse = models.Kurs.objects.all()
+    mypattern = request.POST.get('search')
+    if mypattern:
+        kurse = models.Kurs.objects.filter(bezeichnung__contains=mypattern)
+    return render(request, 'accounts/uebersicht.html', {'kurse':kurse})
 
 class SchuelerUpdateView(UpdateView):
     model = User

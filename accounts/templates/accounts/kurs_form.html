@@ -1,0 +1,21 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+option{
+  color: #000000;
+}
+#id_lehrer, input{
+	color: #000000;
+}
+{% endblock %}
+{% block body %}
+<h4>Kurs hinzufügen</h4>
+<form method="POST" action="{% url 'accounts:newkurs' %}" id="kursForm">
+	{% csrf_token %}
+  {{ form.as_p }}
+	<input type="submit" value="Hinzufügen" class="btn btn-info">
+</form>
+{% endblock %}
