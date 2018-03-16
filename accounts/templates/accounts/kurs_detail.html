@@ -16,5 +16,6 @@ li{
   {% endfor %}
 </ul>
 <p></p>
+<a href="{% url 'accounts:kurs_up' pk=object.id %}">Kurs bearbeiten</a>
 <a href="{% url 'accounts:kurs_del' pk=object.id %}">Kurs löschen</a>
 {% endblock %}

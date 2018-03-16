@@ -19,6 +19,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class KursUpdate(UpdateView):
+    model = models.Kurs
+    fields = ['lehrer', 'teilnehmer']
+    template_name = 'accounts/kurs_update.html'
+    success_url = reverse_lazy('accounts:uebersicht')
+
 class KursCreate(CreateView):
     model = models.Kurs
     fields = ['bezeichnung', 'lehrer', 'teilnehmer', ]
@@ -31,6 +37,7 @@ class KursDelete(DeleteView):
 class SchuelerDelete(DeleteView):
     model = User
     success_url = reverse_lazy('home')
+    template_name = 'accounts/user_confirm_delete.html'
 
 class KursDetailView(DetailView):
     model = models.Kurs

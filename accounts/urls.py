@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'schueler/delete/(?P<pk>\d+)/$', views.SchuelerDelete.as_view(), name='schueler_del'),
     url(r'kurs/delete/(?P<pk>\d+)/$', views.KursDelete.as_view(), name='kurs_del'),
     url(r'kurs/erstellen/$', views.KursCreate.as_view(), name='newkurs'),
+    url(r'kurs/update/(?P<pk>\d+)/$', views.KursUpdate.as_view(), name='kurs_up'),
 ]

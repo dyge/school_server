@@ -20,5 +20,7 @@ input{
 	{% csrf_token %}
   {{ form.as_p }}
 	<input type="submit" value="Hinzufügen" class="btn btn-info">
+  <p></p>
+  <p>Das Passwort muss nicht angegeben werden und wird bei erstmaliger Anmeldung des Schülers von diesem geändert.</p>
 </form>
 {% endblock %}
