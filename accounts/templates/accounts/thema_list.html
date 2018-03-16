@@ -1,0 +1,11 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block body %}
+<h3>Neuigkeiten</h3>
+{% for topic in object_list %}
+    <h4><a href="#">{{ topic.title }}</a></h4>
+    <!-- <p>{{ topic.text|linebreaksbr }}</p> -->
+{% empty %}
+    <h4>Keine Neuigkeiten.</h4>
+{% endfor %}
+{% endblock %}

@@ -31,4 +31,7 @@ urlpatterns = [
     url(r'kurs/delete/(?P<pk>\d+)/$', views.KursDelete.as_view(), name='kurs_del'),
     url(r'kurs/erstellen/$', views.KursCreate.as_view(), name='newkurs'),
     url(r'kurs/update/(?P<pk>\d+)/$', views.KursUpdate.as_view(), name='kurs_up'),
+    url(r'thema/erstellen/$', views.ThemaCreate.as_view(), name='newthema'),
+    url(r'thema/liste/$', views.ThemaList.as_view(), name='themen'),
+    url(r'thema/(?P<pk>\d+)/$', views.ThemaDetail.as_view(), name='thema_detail'),
 ]

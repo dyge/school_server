@@ -19,6 +19,18 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class ThemaDetail(DetailView):
+    model = models.Thema
+
+class ThemaList(ListView):
+    model = models.Thema
+    queryset = models.Thema.objects.order_by('-erstellt')
+
+class ThemaCreate(CreateView):
+    model = models.Thema
+    fields = ['title', 'text']
+    success_url = reverse_lazy('accounts:index_lehrer')
+
 class KursUpdate(UpdateView):
     model = models.Kurs
     fields = ['lehrer', 'teilnehmer']
@@ -145,11 +157,15 @@ def mylogin(request):
         form = UserForm
         return render(request, 'accounts/login_schueler.html', {'form':form}, context)
 
-class IndexS(TemplateView, LoginRequiredMixin):
+class IndexS(ListView, LoginRequiredMixin):
     template_name = 'index_schueler.html'
+    model = models.Thema
+    queryset = models.Thema.objects.order_by('-erstellt')[:3]
 
-class IndexL(TemplateView, LoginRequiredMixin):
+class IndexL(ListView, LoginRequiredMixin):
     template_name = 'index_lehrer.html'
+    model = models.Thema
+    queryset = models.Thema.objects.order_by('-erstellt')[:3]
 
 class Testqu(TemplateView, LoginRequiredMixin):
     template_name = 'accounts/t_time.html'

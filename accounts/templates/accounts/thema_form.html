@@ -1,0 +1,18 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+#id_text, input{
+	color: #000000;
+}
+{% endblock %}
+{% block body %}
+<h4>Neuigkeit hinzufügen</h4>
+<form method="POST" action="{% url 'accounts:newthema' %}" id="themaForm">
+	{% csrf_token %}
+  {{ form.as_p }}
+	<input type="submit" value="Hinzufügen" class="btn btn-info">
+</form>
+{% endblock %}

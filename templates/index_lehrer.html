@@ -11,6 +11,13 @@ p, li{
   <li><a href="{% url 'accounts:new_eng' %}">Englisch</a></li>
   <li><a href="#">Latein</a></li>
 </ul>
-<!-- <p><a href="{% url 'accounts:newschueler' %}">Schüler hinzufügen</a></p>
-<p><a href="{% url 'accounts:klassenuebersicht' %}">Klassen</a> oder <a href="{% url 'accounts:newklasse' %}">Klasse hinzufügen</a></p> -->
+<h3>Neuigkeiten</h3>
+{% for topic in object_list %}
+    <h4><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+{% empty %}
+    <h4>Keine Neuigkeiten.</h4>
+{% endfor %}
+<p></p>
+<p><a href="{% url 'accounts:themen' %}">Alle anzeigen</a></p>
+<p><a href="{% url 'accounts:newthema' %}">Neuigkeit hinzufügen</a></p>
 {% endblock %}

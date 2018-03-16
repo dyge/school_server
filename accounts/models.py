@@ -4,6 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.db.models.signals import pre_save
 
+class Thema(models.Model):
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    erstellt = models.DateTimeField(default=timezone.now, editable=False)
+    class Meta:
+        verbose_name_plural = 'Neuigkeiten'
+    def __str__(self):
+        return self.title
+
 class Klassen(models.Model):
     bezeichnung = models.CharField(max_length=5)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
@@ -29,11 +38,9 @@ class Fach(models.Model):
         return self.title
 
 class Kurs(models.Model):
-    # klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE)
-    # fach = models.ForeignKey(Fach, on_delete=models.CASCADE)
     bezeichnung = models.CharField(max_length=500, blank=True, null=True)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
-    teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer')   # , on_delete=models.CASCADE, related_name='Nutzer'
+    teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer')
     class Meta:
         verbose_name_plural = 'Kurse'
     def __str__(self):
