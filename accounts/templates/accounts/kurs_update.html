@@ -15,7 +15,23 @@ option{
 <h4>Kurs '{{ object }}' bearbeiten</h4>
 <form method="POST" action="{% url 'accounts:kurs_up' pk=object.pk %}" id="kursUpdate">
 	{% csrf_token %}
-  {{ form.as_p }}
+  <p>
+    {{ form.lehrer.errors }}
+    {{ form.lehrer.label_tag }}
+    {{ form.lehrer }}
+    {% if form.lehrer.help_text %}
+        <p class="help">{{ form.lehrer.help_text|safe }}</p>
+    {% endif %}
+  </p>
+  <p>
+    {{ form.teilnehmer.errors }}
+    {{ form.teilnehmer.label_tag }}
+    {{ form.teilnehmer }}
+    {% if form.teilnehmer.help_text %}
+        <p class="help">{{ form.teilnehmer.help_text|safe }}</p>
+    {% endif %}
+  </p>
+  <!-- {{ form.as_p }} -->
 	<input type="submit" value="Ändern" class="btn btn-info">
 </form>
 {% endblock %}

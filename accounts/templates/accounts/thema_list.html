@@ -3,8 +3,7 @@
 {% block body %}
 <h3>Neuigkeiten</h3>
 {% for topic in object_list %}
-    <h4><a href="#">{{ topic.title }}</a></h4>
-    <!-- <p>{{ topic.text|linebreaksbr }}</p> -->
+    <h4><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
 {% empty %}
     <h4>Keine Neuigkeiten.</h4>
 {% endfor %}

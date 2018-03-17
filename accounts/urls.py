@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'thema/erstellen/$', views.ThemaCreate.as_view(), name='newthema'),
     url(r'thema/liste/$', views.ThemaList.as_view(), name='themen'),
     url(r'thema/(?P<pk>\d+)/$', views.ThemaDetail.as_view(), name='thema_detail'),
+    url(r'thema/delete/(?P<pk>\d+)/$', views.ThemaDelete.as_view(), name='thema_del'),
+    url(r'thema/update/(?P<pk>\d+)/$', views.ThemaUpdate.as_view(), name='thema_up'),
 ]

@@ -1,21 +1,84 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
 {% block styling %}
-p{
+.myclass, p{
   color: #FFFAFF;
 }
-option{
-  color: #000000;
-}
-#id_lehrer, input{
+#id_lehrer, input, option{
 	color: #000000;
+}
+select{
+  width: 100px;
 }
 {% endblock %}
 {% block body %}
 <h4>Kurs hinzufügen</h4>
 <form method="POST" action="{% url 'accounts:newkurs' %}" id="kursForm">
-	{% csrf_token %}
-  {{ form.as_p }}
+  {% csrf_token %}
+  <p>
+    {{ form.bezeichnung.errors }}
+    {{ form.bezeichnung.label_tag }}
+    {{ form.bezeichnung }}
+    {% if form.bezeichnung.help_text %}
+        <p class="help">{{ form.bezeichnung.help_text|safe }}</p>
+    {% endif %}
+  </p>
+  <p>
+    {{ form.lehrer.errors }}
+    {{ form.lehrer.label_tag }}
+    {{ form.lehrer }}
+    {% if form.lehrer.help_text %}
+        <p class="help">{{ form.lehrer.help_text|safe }}</p>
+    {% endif %}
+  </p>
+
+  <p>
+    {{ form.teilnehmer.errors }}
+    {{ form.teilnehmer.label_tag }}
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>E-Mail</th>
+        <th>Klasse</th>
+      </thead>
+    </table>
+    <!-- <a class="btn btn-default" href="#"></a> -->
+    {{ form.teilnehmer }}
+    <!-- <select id="id_{{ form.teilnehmer.name }}" name="{{ form.teilnehmer.name }}">
+      {% for value, title in form.teilnehmer.field.choices %}
+        <option value="{{ value }}" class="myclass">{{ title }}</option>
+      {% endfor %}
+    </select> -->
+    <!-- {% for value, title in form.teilnehmer.field.choices %}
+      <option value="{{ value }}" class="myclass">{{ title }}</option>
+    {% endfor %} -->
+    {% if form.teilnehmer.help_text %}
+        <p class="help">{{ form.teilnehmer.help_text|safe }}</p>
+    {% endif %}
+  </p>
+  <!-- {{ form.as_p }} -->
 	<input type="submit" value="Hinzufügen" class="btn btn-info">
 </form>
+<p></p>
+<!-- <section class="container">
+  <div class="row">
+    <div class="col-md-3">
+        <select id="leftValues" size="5" multiple></select>
+    </div>
+    <div class="col-md-1">
+        <input type="button" id="btnLeft" value="&lt;&lt;" />
+        <input type="button" id="btnRight" value="&gt;&gt;" />
+    </div>
+    <div class="col-md-3">
+        <select id="rightValues" size="4" multiple>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+        <div>
+            <input type="text" id="txtRight" />
+        </div>
+    </div>
+  </div>
+</section> -->
 {% endblock %}

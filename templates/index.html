@@ -1,7 +1,18 @@
 {% extends "base_index.html" %}
 {% load bootstrap3 %}
-{% load staticfiles %}
+{% block styling %}
+h3, h4{
+  color: #FFFAFF;
+}
+{% endblock %}
 {% block body %}
   <h1>Willkommen</h1>
-  <a href="{% url 'accounts:login' %}">Login</a>
+  <h3>Neuigkeiten</h3>
+  {% for topic in object_list %}
+      <h4><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+  {% empty %}
+      <h4>Keine Neuigkeiten.</h4>
+  {% endfor %}
+  <p></p>
+  <p><a href="{% url 'accounts:themen' %}">Alle anzeigen</a></p>
 {% endblock %}

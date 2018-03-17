@@ -19,6 +19,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class ThemaUpdate(UpdateView):
+    model = models.Thema
+    template_name = 'accounts/thema_update.html'
+    fields = ['text', ]
+    success_url = reverse_lazy('accounts:index_lehrer')
+
+class ThemaDelete(DeleteView):
+    model = models.Thema
+    success_url = reverse_lazy('accounts:index_lehrer')
+
 class ThemaDetail(DetailView):
     model = models.Thema
 

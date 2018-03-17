@@ -1,19 +1,10 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
 {% block styling %}
-p{
+p, li{
   color: #FFFAFF;
 }
-li{
-  color: #FFFAFF;
-}
-input{
-	color: #000000;
-}
-.myklasse{
-  color: #000000;
-}
-.mybutton{
+#id_klasse, .myklasse, .mybutton, input{
   color: #000000;
 }
 {% endblock %}
@@ -23,7 +14,6 @@ input{
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Ändern" />
-  <a class="btn btn-danger mybutton" href="{% url 'accounts:schueler_del' pk=object.id %}">Löschen</a>  <!-- <button type="button" name="button"></button> -->
-  <!-- <a href="#">Löschen</a> -->
+  <a class="btn btn-danger mybutton" href="{% url 'accounts:schueler_del' pk=object.id %}">Löschen</a>
 </form>
 {% endblock %}

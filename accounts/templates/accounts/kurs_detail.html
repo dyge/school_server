@@ -4,6 +4,9 @@
 li{
   color: #FFFAFF;
 }
+mybutton{
+  color: #000000;
+}
 {% endblock %}
 {% block body %}
 <h3>Bezeichnung: {{ kurs.bezeichnung }}</h3>
@@ -16,6 +19,6 @@ li{
   {% endfor %}
 </ul>
 <p></p>
-<a href="{% url 'accounts:kurs_up' pk=object.id %}">Kurs bearbeiten</a>
-<a href="{% url 'accounts:kurs_del' pk=object.id %}">Kurs löschen</a>
+<a class="btn btn-default mybutton" href="{% url 'accounts:kurs_up' pk=object.id %}">Kurs bearbeiten</a>
+<a class="btn btn-danger mybutton" href="{% url 'accounts:kurs_del' pk=object.id %}">Kurs löschen</a>
 {% endblock %}
