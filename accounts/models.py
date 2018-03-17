@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.db.models.signals import pre_save
+from markdownx.models import MarkdownxField
 
 class Thema(models.Model):
     title = models.CharField(max_length=200)
@@ -38,19 +39,13 @@ class Fach(models.Model):
         return self.title
 
 class Kurs(models.Model):
-    bezeichnung = models.CharField(max_length=500, blank=True, null=True)
+    bezeichnung = models.CharField(max_length=500)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
     teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer')
     class Meta:
         verbose_name_plural = 'Kurse'
     def __str__(self):
         return self.bezeichnung
-
-def create_kurs(sender,instance, *args, **kwargs):
-    if not instance.bezeichnung:
-        instance.bezeichnung = str(instance.fach) + ' ' + str(instance.klasse)
-
-pre_save.connect(create_kurs, sender=Kurs)
 
 class Engvoc(models.Model):
     eng = models.CharField(max_length=200)

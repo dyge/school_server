@@ -2,6 +2,23 @@ from django import forms
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+
+class ThemaFormZwei(forms.ModelForm):
+    class Meta:
+        model = models.Thema
+        fields = ['text', ]
+        widgets = {
+            'text': SummernoteWidget(),
+        }
+
+class ThemaForm(forms.ModelForm):
+    class Meta:
+        model = models.Thema
+        fields = ['title', 'text', ]
+        widgets = {
+            'text': SummernoteWidget(),
+        }
 
 class UserForm(forms.Form):
     username = forms.CharField(required=True,max_length=200)

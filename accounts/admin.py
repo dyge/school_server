@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django import forms
+from django_summernote.admin import SummernoteModelAdmin
+
+class KursAdmin(admin.ModelAdmin):
+    filter_horizontal = ('teilnehmer',)
 
 class GerInline(admin.TabularInline):
     model = models.Ger
@@ -39,10 +43,13 @@ UserAdmin.add_fieldsets = (
     }),
 )
 
+class ThemaAdmin(SummernoteModelAdmin):
+    summernote_fields = ('text', )
+
 admin.site.register(models.Engvoc, EngAdmin)
-admin.site.register(models.Kurs)
+admin.site.register(models.Kurs, KursAdmin)
 admin.site.register(models.Klassen)
 admin.site.register(models.Fach)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(models.Thema)
+admin.site.register(models.Thema, ThemaAdmin)

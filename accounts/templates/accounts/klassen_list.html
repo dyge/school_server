@@ -1,17 +1,41 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
 {% block styling %}
-li{
+table, th, td{
   color: #FFFAFF;
+  border: 3px solid #FFFAFF;
+  padding: 5px;
 }
 {% endblock %}
 {% block body %}
 <h4>Klassen:</h4>
-{% for klass in object_list %}
+<table>
+  <thead>
+    <tr>
+      <th>Klasse</th>
+      <th>Klassenleiter</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for klass in object_list %}
+      <tr>
+        <td>{{ klass.bezeichnung }}</td>
+        <td>{{ klass.lehrer }}</td>
+        <td><a href="{% url 'accounts:schueleruebersicht' pk=klass.id %}">Details</a></td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="3">Keine Klassen.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!-- {% for klass in object_list %}
     <li><a href="{% url 'accounts:schueleruebersicht' pk=klass.id %}">{{ klass.bezeichnung }}</a> - Klassenleiter: {{ klass.lehrer }}</li>
 {% empty %}
     <li>Keine Klassen.</li>
-{% endfor %}
+{% endfor %} -->
 <p></p>
 <a href="{% url 'accounts:newklasse' %}">Klasse hinzufügen</a></p>
 <p><a href="{% url 'accounts:newschueler' %}">Schüler hinzufügen</a></p>

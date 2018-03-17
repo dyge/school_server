@@ -10,7 +10,7 @@ p{
 {% endblock %}
 {% block body %}
 <h3>{{ thema.title }}</h3>
-<p>{{ thema.text|linebreaksbr }}</p>
+{{ thema.text|safe }}
 <a class="btn btn-danger mybutton" href="{% url 'accounts:thema_del' pk=object.id %}">Löschen</a>
 <a class="btn btn-default mybutton" href="{% url 'accounts:thema_up' pk=object.id %}">Ändern</a>
 {% endblock %}

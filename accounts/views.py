@@ -3,13 +3,13 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.template import RequestContext
-from .forms import UserForm, EngForm, SchuelerForm
+from .forms import UserForm, EngForm, SchuelerForm, ThemaForm, ThemaFormZwei
 from . import models
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
@@ -20,9 +20,9 @@ from django.contrib import messages #
 from django.core.mail import send_mail
 
 class ThemaUpdate(UpdateView):
+    form_class = ThemaFormZwei
     model = models.Thema
     template_name = 'accounts/thema_update.html'
-    fields = ['text', ]
     success_url = reverse_lazy('accounts:index_lehrer')
 
 class ThemaDelete(DeleteView):
@@ -37,8 +37,8 @@ class ThemaList(ListView):
     queryset = models.Thema.objects.order_by('-erstellt')
 
 class ThemaCreate(CreateView):
-    model = models.Thema
-    fields = ['title', 'text']
+    form_class = ThemaForm
+    template_name = 'accounts/thema_form.html'
     success_url = reverse_lazy('accounts:index_lehrer')
 
 class KursUpdate(UpdateView):
@@ -51,6 +51,10 @@ class KursCreate(CreateView):
     model = models.Kurs
     fields = ['bezeichnung', 'lehrer', 'teilnehmer', ]
     success_url = reverse_lazy('accounts:uebersicht')
+    def get_form(self):
+        form = super(CreateView, self).get_form()
+        form.fields['teilnehmer'].queryset = User.objects.exclude(groups__name='Lehrer')
+        return form
 
 class KursDelete(DeleteView):
     model = models.Kurs
