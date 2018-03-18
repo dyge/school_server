@@ -8,7 +8,6 @@ p{
 {% endblock %}
 {% block body %}
 <h3>Profil</h3>
-<!-- {% gravatar user.email 80 %} -->
 <img class="img-circle" src="{% gravatar_url user.email 80 %}" alt="">
 <p></p>
 <p>Vollständiger Name: {{ user.username }}</p>

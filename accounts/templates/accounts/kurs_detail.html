@@ -7,18 +7,48 @@ li{
 mybutton{
   color: #000000;
 }
+table, th, td{
+  color: #FFFAFF;
+  border: 3px solid #FFFAFF;
+  padding: 5px;
+}
 {% endblock %}
 {% block body %}
 <h3>Bezeichnung: {{ kurs.bezeichnung }}</h3>
 <h4>Lehrer: {{ kurs.lehrer }}</h4>
-<ul>
+<h4>Teilnehmer:</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Schueler</th>
+      <th>Klasse</th>
+      <th>E-Mail</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for schueler in kurs.teilnehmer.all %}
+      <tr>
+        <td>{{ schueler.username }}</td>
+        <td>{{ schueler.klasse }}</td>
+        <td>{{ schueler.email }}</td>
+        <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a></td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4">Keine Schüler nehmen teil.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!-- <ul>
   {% for schueler in kurs.teilnehmer.all %}
     <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>
   {% empty %}
     <li>Keine Schüler nehmen teil.</li>
   {% endfor %}
-</ul>
+</ul> -->
 <p></p>
-<a class="btn btn-default mybutton" href="{% url 'accounts:kurs_up' pk=object.id %}">Kurs bearbeiten</a>
-<a class="btn btn-danger mybutton" href="{% url 'accounts:kurs_del' pk=object.id %}">Kurs löschen</a>
+<a class="btn btn-default mybutton" href="{% url 'accounts:kurs_up' pk=object.id %}">{% bootstrap_icon "pencil" %}</a>
+<a class="btn btn-danger mybutton" href="{% url 'accounts:kurs_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
 {% endblock %}

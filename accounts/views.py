@@ -19,6 +19,20 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class KlasseUpdate(UpdateView):
+    model = models.Klassen
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+    fields = ['lehrer', ]
+    template_name = 'accounts/klassen_update.html'
+
+class UserDetail(DetailView):
+    model = User
+    template_name = 'accounts/user_detail.html'
+
+class KlasseDelete(DeleteView):
+    model = models.Klassen
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+
 class ThemaUpdate(UpdateView):
     form_class = ThemaFormZwei
     model = models.Thema
@@ -46,6 +60,10 @@ class KursUpdate(UpdateView):
     fields = ['lehrer', 'teilnehmer']
     template_name = 'accounts/kurs_update.html'
     success_url = reverse_lazy('accounts:uebersicht')
+    def get_form(self, form_class=None):
+        form = super(KursUpdate, self).get_form(form_class)
+        form.fields["teilnehmer"].queryset = User.objects.exclude(groups__name='Lehrer')
+        return form
 
 class KursCreate(CreateView):
     model = models.Kurs

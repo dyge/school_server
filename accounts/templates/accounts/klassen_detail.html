@@ -5,11 +5,42 @@
 li{
   color: #FFFAFF;
 }
+table, th, td{
+  color: #FFFAFF;
+  border: 3px solid #FFFAFF;
+  padding: 5px;
+}
 {% endblock %}
 {% block body %}
 <h3>Klasse {{ klassen.bezeichnung }} - Klassenleiter: {{ klassen.lehrer }}</h3>
 <h4>Schüler:</h4>
-<ul>
+<table>
+  <thead>
+    <tr>
+      <th>Schueler</th>
+      <th>Klasse</th>
+      <th>E-Mail</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for schueler in benutzer %}
+      {% if not schueler|has_group:"Lehrer" %}
+        <tr>
+          <td>{{ schueler.username }}</td>
+          <td>{{ schueler.klasse }}</td>
+          <td>{{ schueler.email }}</td>
+          <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:schuelerchange' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a></td>
+        </tr>
+      {% endif %}
+    {% empty %}
+      <tr>
+        <td colspan="4">Keine Schüler.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!-- <ul>
   {% for schueler in benutzer %}
     {% if not schueler|has_group:"Lehrer" %}
         <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>
@@ -17,5 +48,5 @@ li{
   {% empty %}
     <li>Keine Schüler.</li>
   {% endfor %}
-</ul>
+</ul> -->
 {% endblock %}

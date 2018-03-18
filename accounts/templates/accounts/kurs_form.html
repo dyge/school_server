@@ -1,9 +1,10 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
-<script type="text/javascript" src="/admin/jsi18n/"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}" />
+<script type="text/javascript" src="/admin/jsi18n/"></script> <!--  -->
 <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 <script type="text/javascript" src="/static/admin/js/core.js"></script>
@@ -14,9 +15,9 @@
 <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
 <script type="text/javascript" src="/static/admin/js/SelectBox.js"></script>
 <script type="text/javascript" src="/static/admin/js/SelectFilter2.js"></script>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"> <!--  -->
 <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css" />
-<meta name="robots" content="NONE,NOARCHIVE" />
+<meta name="robots" content="NONE,NOARCHIVE" /> <!--  -->
 {% endblock %}
 {% block styling %}
 .myclass, .myp{

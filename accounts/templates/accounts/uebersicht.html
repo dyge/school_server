@@ -8,6 +8,15 @@ p, li, th, td, h5{
   color: #FFFAFF;
   font-size: 1.4em;
 }
+table, th, td{
+  color: #FFFAFF;
+  border: 3px solid #FFFAFF;
+  padding: 5px;
+}
+.myplus{
+  color: #37d353;
+  font-size: 1.2em;
+}
 {% endblock %}
 {% block body %}
 <div class="row">
@@ -21,17 +30,39 @@ p, li, th, td, h5{
       <button type="submit" class="btn btn-default">Suchen</button>
     </form>
     <p></p>
-    {% for kurs in kurse %}
-        <li><a href="{% url 'accounts:kursdetail' pk=kurs.id %}">{{ kurs.bezeichnung }}</a> - Lehrer: {{ kurs.lehrer }}</li>
+    <table>
+      <thead>
+        <tr>
+          <th>Klasse</th>
+          <th>Klassenleiter</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for kurs in kurse %}
+          <tr>
+            <td>{{ kurs.bezeichnung }}</td>
+            <td>{{ kurs.lehrer }}</span></td>
+            <td><a href="{% url 'accounts:kursdetail' pk=kurs.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:kurs_up' pk=kurs.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a> <a href="{% url 'accounts:kurs_del' pk=kurs.id %}" class="btn btn-danger">{% bootstrap_icon "trash" %}</a></td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">Keine Ergebnisse.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!-- {% for kurs in kurse %}
+      <li><a href="{% url 'accounts:kursdetail' pk=kurs.id %}">{{ kurs.bezeichnung }}</a> - Lehrer: {{ kurs.lehrer }}</li>
     {% empty %}
-        <li>Keine Ergebnisse.</li>
-    {% endfor %}
+      <li>Keine Ergebnisse.</li>
+    {% endfor %} -->
     <p></p>
-    <a href="{% url 'accounts:newkurs' %}">Neuen Kurs erstellen</a>
+    <a href="{% url 'accounts:newkurs' %}" class="myplus">{% bootstrap_icon "plus" %} Kurs</a>
   </div>
   <div class="col-md-6">
     <h3>Übersicht</h3>
     <p><a href="{% url 'accounts:klassenuebersicht' %}">Klassenübersicht</a></p>
-    {% endblock %}
   </div>
 </div>
+{% endblock %}

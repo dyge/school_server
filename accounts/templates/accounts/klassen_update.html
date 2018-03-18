@@ -4,16 +4,16 @@
 p, li{
   color: #FFFAFF;
 }
-#id_klasse, .myklasse, .mybutton, input{
+#id_lehrer, .myklasse, .mybutton, input{
   color: #000000;
 }
 {% endblock %}
 {% block body %}
-<h4>Schüler:</h4>
+<h4>Klasse {{ object }}</h4>
 <form action="" method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" class="btn btn-default" value="Speichern" />
-  <a class="btn btn-danger mybutton" href="{% url 'accounts:schueler_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
+  <a class="btn btn-danger mybutton" href="{% url 'accounts:klasse_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
 </form>
 {% endblock %}
