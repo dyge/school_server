@@ -17,6 +17,7 @@ class Thema(models.Model):
 class Klassen(models.Model):
     bezeichnung = models.CharField(max_length=5)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
+    stellvertreter = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'}, related_name='Mystellvertreter')
     class Meta:
         verbose_name_plural = 'Klassen'
     def __str__(self):
@@ -41,7 +42,8 @@ class Fach(models.Model):
 class Kurs(models.Model):
     bezeichnung = models.CharField(max_length=500)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
-    teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer')
+    stellvertreter = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'}, blank=True, null=True, related_name='Stellvertreter')
+    teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer', blank=True)
     class Meta:
         verbose_name_plural = 'Kurse'
     def __str__(self):

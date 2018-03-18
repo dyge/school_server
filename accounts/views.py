@@ -19,71 +19,108 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
-class KlasseUpdate(UpdateView):
+# .exclude(kurs.teilnehmer in kurs_set.all())
+def plusschueler(request, pk, myid=None, act=0):
+    kurs = models.Kurs.objects.get(pk=pk)
+    if (act != 0) and myid:
+        betreffend = User.objects.get(id=myid)
+        kurs.teilnehmer.remove(betreffend)
+    elif myid:
+        betreffend = User.objects.get(id=myid)
+        kurs.teilnehmer.add(betreffend)
+    moeglich = User.objects.exclude(groups__name='Lehrer')
+    mypattern = request.POST.get('search')
+    if mypattern:
+        moeglich = User.objects.exclude(groups__name='Lehrer').filter(username__contains=mypattern)
+    # for i in kurs.teilnehmer.all():
+    #     print(i)
+    return render(request, 'accounts/plus_schueler.html', {'moeglich':moeglich, 'kurs':kurs})
+
+class OhneKurs(ListView, LoginRequiredMixin):
+    model = User
+    template_name = 'accounts/okurs.html'
+    queryset = User.objects.filter(Teilnehmer=None)
+
+class OhneKlasse(ListView, LoginRequiredMixin):
+    model = User
+    queryset = User.objects.filter(klasse=None)
+    template_name = 'accounts/oklasse.html'
+
+class KlasseUpdate(UpdateView, LoginRequiredMixin):
     model = models.Klassen
     success_url = reverse_lazy('accounts:klassenuebersicht')
-    fields = ['lehrer', ]
+    fields = ['lehrer', 'stellvertreter', ]
     template_name = 'accounts/klassen_update.html'
 
-class UserDetail(DetailView):
+class UserDetail(DetailView, LoginRequiredMixin):
     model = User
     template_name = 'accounts/user_detail.html'
 
-class KlasseDelete(DeleteView):
+class KlasseDelete(DeleteView, LoginRequiredMixin):
     model = models.Klassen
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
-class ThemaUpdate(UpdateView):
+class ThemaUpdate(UpdateView, LoginRequiredMixin):
     form_class = ThemaFormZwei
     model = models.Thema
     template_name = 'accounts/thema_update.html'
     success_url = reverse_lazy('accounts:index_lehrer')
 
-class ThemaDelete(DeleteView):
+class ThemaDelete(DeleteView, LoginRequiredMixin):
     model = models.Thema
     success_url = reverse_lazy('accounts:index_lehrer')
 
+class ThemaDetailSchueler(DetailView):
+    model = models.Thema
+    template_name = 'accounts/thema_detail_schueler.html'
+
+class ThemaDetailOfficial(DetailView):
+    model = models.Thema
+    template_name = 'accounts/thema_detail_official.html'
+
 class ThemaDetail(DetailView):
     model = models.Thema
+
+class ThemaListOfficial(ListView):
+    model = models.Thema
+    queryset = models.Thema.objects.order_by('-erstellt')
+    template_name = 'accounts/themen_official.html'
+
+class ThemaListSchueler(ListView):
+    model = models.Thema
+    queryset = models.Thema.objects.order_by('-erstellt')
+    template_name = 'accounts/themen_schueler.html'
 
 class ThemaList(ListView):
     model = models.Thema
     queryset = models.Thema.objects.order_by('-erstellt')
 
-class ThemaCreate(CreateView):
+class ThemaCreate(CreateView, LoginRequiredMixin):
     form_class = ThemaForm
     template_name = 'accounts/thema_form.html'
     success_url = reverse_lazy('accounts:index_lehrer')
 
-class KursUpdate(UpdateView):
+class KursUpdate(UpdateView, LoginRequiredMixin):
     model = models.Kurs
-    fields = ['lehrer', 'teilnehmer']
+    fields = ['lehrer', 'stellvertreter',]
     template_name = 'accounts/kurs_update.html'
     success_url = reverse_lazy('accounts:uebersicht')
-    def get_form(self, form_class=None):
-        form = super(KursUpdate, self).get_form(form_class)
-        form.fields["teilnehmer"].queryset = User.objects.exclude(groups__name='Lehrer')
-        return form
 
-class KursCreate(CreateView):
+class KursCreate(CreateView, LoginRequiredMixin):
     model = models.Kurs
-    fields = ['bezeichnung', 'lehrer', 'teilnehmer', ]
+    fields = ['bezeichnung', 'lehrer', 'stellvertreter', ]
     success_url = reverse_lazy('accounts:uebersicht')
-    def get_form(self):
-        form = super(CreateView, self).get_form()
-        form.fields['teilnehmer'].queryset = User.objects.exclude(groups__name='Lehrer')
-        return form
 
-class KursDelete(DeleteView):
+class KursDelete(DeleteView, LoginRequiredMixin):
     model = models.Kurs
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('accounts:uebersicht')
 
-class SchuelerDelete(DeleteView):
+class SchuelerDelete(DeleteView, LoginRequiredMixin):
     model = User
     success_url = reverse_lazy('home')
     template_name = 'accounts/user_confirm_delete.html'
 
-class KursDetailView(DetailView):
+class KursDetailView(DetailView, LoginRequiredMixin):
     model = models.Kurs
 
 def get_lehrer_profile(request, username):
@@ -101,13 +138,13 @@ def uebersicht(request):
         kurse = models.Kurs.objects.filter(bezeichnung__contains=mypattern)
     return render(request, 'accounts/uebersicht.html', {'kurse':kurse})
 
-class SchuelerUpdateView(UpdateView):
+class SchuelerUpdateView(UpdateView, LoginRequiredMixin):
     model = User
     fields = ['username', 'email', 'klasse']
     template_name = 'accounts/user_update_form.html'
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
-class KlassenDetailView(DetailView):
+class KlassenDetailView(DetailView, LoginRequiredMixin):
     model = models.Klassen
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -115,12 +152,12 @@ class KlassenDetailView(DetailView):
         data['benutzer'] = User.objects.filter(klasse__id=pk)
         return data
 
-class KlasseCreateView(CreateView):
+class KlasseCreateView(CreateView, LoginRequiredMixin):
     model = models.Klassen
-    fields = ['bezeichnung', 'lehrer', ]
+    fields = ['bezeichnung', 'lehrer', 'stellvertreter', ]
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
-class KlassenListView(ListView):
+class KlassenListView(ListView, LoginRequiredMixin):
     model = models.Klassen
 
 def signup(request):
@@ -136,7 +173,7 @@ def signup(request):
             link = 'http://127.0.0.1:8000/accounts/password_reset/'
             msg = 'Registrierung von %s (mit der E-Mail Adresse %s), Link zum Registrieren: %s' %(username, mail, link)
             send_mail('Registrierung',msg,'sina.andreas@gmail.com',[mail],fail_silently=True)
-            return redirect('home')
+            return redirect('accounts:klassenuebersicht')
     else:
         form = SchuelerForm()
     return render(request, 'accounts/schueler_form.html', {'form': form})

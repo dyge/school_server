@@ -4,18 +4,18 @@
 li{
   color: #FFFAFF;
 }
-mybutton{
-  color: #000000;
-}
-table, th, td{
-  color: #FFFAFF;
-  border: 3px solid #FFFAFF;
-  padding: 5px;
+.myplus{
+  color: #37d353;
 }
 {% endblock %}
 {% block body %}
 <h3>Bezeichnung: {{ kurs.bezeichnung }}</h3>
-<h4>Lehrer: {{ kurs.lehrer }}</h4>
+<h4>Fachlehrer: {{ kurs.lehrer }}</h4>
+{% if kurs.stellvertreter %}
+  <h4>Stellvertreter: {{ kurs.lehrer }}</h4>
+{% else %}
+  <h4>Stellvertreter: Keiner</h4>
+{% endif %}
 <h4>Teilnehmer:</h4>
 <table>
   <thead>
@@ -32,7 +32,7 @@ table, th, td{
         <td>{{ schueler.username }}</td>
         <td>{{ schueler.klasse }}</td>
         <td>{{ schueler.email }}</td>
-        <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a></td>
+        <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:schueler_plus' pk=object.id myid=schueler.id act=1 %}" class="btn btn-default">{% bootstrap_icon "trash" %}</a></td>
       </tr>
     {% empty %}
       <tr>
@@ -41,6 +41,8 @@ table, th, td{
     {% endfor %}
   </tbody>
 </table>
+<p></p>
+<p><a class="myplus" href="{% url 'accounts:schueler_plus' pk=object.id %}">{% bootstrap_icon "plus" %} Schueler</a></p>
 <!-- <ul>
   {% for schueler in kurs.teilnehmer.all %}
     <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>

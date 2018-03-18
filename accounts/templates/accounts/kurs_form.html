@@ -1,29 +1,11 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
 {% load staticfiles %}
-{% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}" />
-<script type="text/javascript" src="/admin/jsi18n/"></script> <!--  -->
-<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
-<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
-<script type="text/javascript" src="/static/admin/js/core.js"></script>
-<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script type="text/javascript" src="/static/admin/js/actions.js"></script>
-<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
-<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
-<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-<script type="text/javascript" src="/static/admin/js/SelectBox.js"></script>
-<script type="text/javascript" src="/static/admin/js/SelectFilter2.js"></script>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"> <!--  -->
-<link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css" />
-<meta name="robots" content="NONE,NOARCHIVE" /> <!--  -->
-{% endblock %}
 {% block styling %}
-.myclass, .myp{
+.myclass, .myp, label{
   color: #FFFAFF;
 }
-#id_lehrer, input, option{
+input, option{
 	color: #000000;
 }
 {% endblock %}
@@ -31,7 +13,8 @@
 <h4>Kurs hinzufügen</h4>
 <form method="POST" action="{% url 'accounts:newkurs' %}" id="kursForm">
   {% csrf_token %}
-  <p class="myp">
+  {{ form.as_p }}
+  <!-- <p class="myp">
     {{ form.bezeichnung.errors }}
     {{ form.bezeichnung.label_tag }}
     {{ form.bezeichnung }}
@@ -46,25 +29,7 @@
     {% if form.lehrer.help_text %}
         <p class="help">{{ form.lehrer.help_text|safe }}</p>
     {% endif %}
-  </p>
-  <div class="form-row field-teilnehmer">
-    <div>
-      <div class="related-widget-wrapper">
-        <select name="teilnehmer" required id="id_teilnehmer" multiple="multiple" class="selectfilter" data-field-name="teilnehmer" data-is-stacked="0">
-          {% for value, title in form.teilnehmer.field.choices %}
-            <option value="{{ value }}">{{ title }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="help">Halten Sie die Strg-Taste (⌘ für Mac) während des Klickens gedrückt, um mehrere Einträge auszuwählen.</div>
-  </div>
+  </p> -->
   <input type="submit" value="Hinzufügen" class="btn btn-info">
 </form>
-{% endblock %}
-{% block js %}
-<script type="text/javascript" id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="kurs">
-</script>
-<script type="text/javascript" id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
-</script>
 {% endblock %}
