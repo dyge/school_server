@@ -43,6 +43,7 @@ class Kurs(models.Model):
     bezeichnung = models.CharField(max_length=500)
     lehrer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'})
     stellvertreter = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': u'Lehrer'}, blank=True, null=True, related_name='Stellvertreter')
+    klasse = models.ForeignKey(Klassen, on_delete=models.CASCADE, blank=True, null=True)
     teilnehmer = models.ManyToManyField(User, related_name='Teilnehmer', blank=True)
     class Meta:
         verbose_name_plural = 'Kurse'

@@ -9,6 +9,8 @@ p{
 }
 {% endblock %}
 {% block body %}
+<a href="{% url 'accounts:themen' %}">Zurück</a>
+<p></p>
 <h3>{{ thema.title }}</h3>
 {{ thema.text|safe }}
 <a class="btn btn-danger mybutton" href="{% url 'accounts:thema_del' pk=object.id %}">Löschen</a>

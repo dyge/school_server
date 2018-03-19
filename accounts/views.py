@@ -19,6 +19,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+def all_klasse(request, pk):
+    res = models.Kurs.objects.get(id=pk)
+    print(res.klasse)
+    k = User.objects.filter(klasse=res.klasse).exclude(groups__name='Lehrer')
+    for i in k:
+        myid = i.id
+        betreffend = User.objects.get(id=myid)
+        res.teilnehmer.add(betreffend)
+    return redirect('accounts:uebersicht')
+
 # .exclude(kurs.teilnehmer in kurs_set.all())
 def plusschueler(request, pk, myid=None, act=0):
     kurs = models.Kurs.objects.get(pk=pk)
@@ -102,13 +112,13 @@ class ThemaCreate(CreateView, LoginRequiredMixin):
 
 class KursUpdate(UpdateView, LoginRequiredMixin):
     model = models.Kurs
-    fields = ['lehrer', 'stellvertreter',]
+    fields = ['lehrer', 'stellvertreter', 'klasse']
     template_name = 'accounts/kurs_update.html'
     success_url = reverse_lazy('accounts:uebersicht')
 
 class KursCreate(CreateView, LoginRequiredMixin):
     model = models.Kurs
-    fields = ['bezeichnung', 'lehrer', 'stellvertreter', ]
+    fields = ['bezeichnung', 'lehrer', 'stellvertreter', 'klasse', ]
     success_url = reverse_lazy('accounts:uebersicht')
 
 class KursDelete(DeleteView, LoginRequiredMixin):

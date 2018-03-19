@@ -1,6 +1,13 @@
 {% extends "base_index.html" %}
 {% load bootstrap3 %}
+{% block styling %}
+h3{
+  color: #FFFAFF;
+}
+{% endblock %}
 {% block body %}
+<a href="{% url 'home' %}">Zurück</a>
+<p></p>
 <h3>Neuigkeiten</h3>
 {% for topic in object_list %}
     <h4><a href="{% url 'accounts:thema_detail_official' pk=topic.id %}">{{ topic.title }}</a></h4>

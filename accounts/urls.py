@@ -48,4 +48,5 @@ urlpatterns = [
     url(r'thema/update/(?P<pk>\d+)/$', views.ThemaUpdate.as_view(), name='thema_up'),
     url(r'verwaltung/ohne/klasse/$', views.OhneKlasse.as_view(), name='ohne_klasse'),
     url(r'verwaltung/ohne/kurs/$', views.OhneKurs.as_view(), name='ohne_kurs'),
+    url(r'add/all/klasse/(?P<pk>\d+)/$', views.all_klasse, name='add_all_klasse'),
 ]

@@ -9,6 +9,8 @@ p, h3, h4, h5, h6{
 }
 {% endblock %}
 {% block body %}
+<a href="{% url 'accounts:themen_official' %}">Zurück</a>
+<p></p>
 <h3>{{ thema.title }}</h3>
 {{ thema.text|safe }}
 {% endblock %}

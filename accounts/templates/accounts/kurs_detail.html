@@ -16,6 +16,11 @@ li{
 {% else %}
   <h4>Stellvertreter: Keiner</h4>
 {% endif %}
+{% if kurs.klasse %}
+  <h4>Klasse: {{ kurs.klasse }}</h4>
+{% else %}
+  <h4>Klasse: Keine</h4>
+{% endif %}
 <h4>Teilnehmer:</h4>
 <table>
   <thead>
@@ -43,6 +48,10 @@ li{
 </table>
 <p></p>
 <p><a class="myplus" href="{% url 'accounts:schueler_plus' pk=object.id %}">{% bootstrap_icon "plus" %} Schueler</a></p>
+{% if kurs.klasse %}
+  <p><a class="myplus" href="{% url 'accounts:add_all_klasse' pk=object.id %}">Alle Schüler der Klasse {{ kurs.klasse }} hinzufügen</a></p>
+{% endif %}
+
 <!-- <ul>
   {% for schueler in kurs.teilnehmer.all %}
     <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>
