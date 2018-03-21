@@ -7,6 +7,7 @@ p{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:schueleruebersicht' pk=user.klasse.id %}">Zurück</a></p>
 <h3>Profil</h3>
 <img class="img-circle" src="{% gravatar_url user.email 80 %}" alt="">
 <p></p>

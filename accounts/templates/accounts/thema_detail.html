@@ -13,6 +13,6 @@ p{
 <p></p>
 <h3>{{ thema.title }}</h3>
 {{ thema.text|safe }}
-<a class="btn btn-danger mybutton" href="{% url 'accounts:thema_del' pk=object.id %}">Löschen</a>
-<a class="btn btn-default mybutton" href="{% url 'accounts:thema_up' pk=object.id %}">Ändern</a>
+<a class="btn btn-danger mybutton" href="{% url 'accounts:thema_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
+<a class="btn btn-default mybutton" href="{% url 'accounts:thema_up' pk=object.id %}">{% bootstrap_icon "pencil" %}</a>
 {% endblock %}

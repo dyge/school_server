@@ -9,6 +9,7 @@ li{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:uebersicht' %}">Zurück</a></p>
 <h3>Bezeichnung: {{ kurs.bezeichnung }}</h3>
 <h4>Fachlehrer: {{ kurs.lehrer }}</h4>
 {% if kurs.stellvertreter %}

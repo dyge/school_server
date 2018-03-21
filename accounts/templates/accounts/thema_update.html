@@ -13,6 +13,6 @@ textarea{
 <form method="POST" action="{% url 'accounts:thema_up' pk=object.pk %}" id="themaUpdate">
 	{% csrf_token %}
   {{ form.as_p }}
-	<input type="submit" value="Speichern" class="btn btn-info">
+  <button type="submit" class="btn btn-info">{% bootstrap_icon "ok" %}</button>
 </form>
 {% endblock %}

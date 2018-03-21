@@ -11,6 +11,7 @@ li{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:klassenuebersicht' %}">Zurück</a></p>
 <h3>Klasse {{ klassen.bezeichnung }}</h3>
 <h4>Klassenleiter: {{ klassen.lehrer }}</h4>
 <h4>Stellvertreter: {{ klassen.stellvertreter }}</h4>
@@ -31,7 +32,7 @@ li{
           <td>{{ schueler.username }}</td>
           <td>{{ schueler.klasse }}</td>
           <td>{{ schueler.email }}</td>
-          <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:schuelerchange' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a> <a href="#" class="btn btn-default">{% bootstrap_icon "trash" %}</a></td>
+          <td><a href="{% url 'accounts:schueler_profil' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:schuelerchange' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a> <a href="{% url 'accounts:schueler_del' pk=schueler.id %}" class="btn btn-default">{% bootstrap_icon "trash" %}</a></td>
         </tr>
       {% endif %}
     {% empty %}
@@ -43,13 +44,4 @@ li{
 </table>
 <p></p>
 <a href="{% url 'accounts:newschueler' %}" class="myplus">{% bootstrap_icon "plus" %} Schueler</a>
-<!-- <ul>
-  {% for schueler in benutzer %}
-    {% if not schueler|has_group:"Lehrer" %}
-        <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>
-    {% endif %}
-  {% empty %}
-    <li>Keine Schüler.</li>
-  {% endfor %}
-</ul> -->
 {% endblock %}

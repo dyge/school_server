@@ -10,6 +10,7 @@ input, option{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:uebersicht' %}">Zurück</a></p>
 <h4>Kurs hinzufügen</h4>
 <form method="POST" action="{% url 'accounts:newkurs' %}" id="kursForm">
   {% csrf_token %}

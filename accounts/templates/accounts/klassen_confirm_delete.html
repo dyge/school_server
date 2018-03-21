@@ -6,7 +6,8 @@ p{
 }
 {% endblock %}
 {% block body %}
-<h4>Klasse:</h4>
+<p><a href="{% url 'accounts:schueleruebersicht' pk=object.id %}">Zurück</a></p>
+<h4>Löschen?</h4>
 <form action="" method="post">
   {% csrf_token %}
   <p>Wollen sie die Klasse {{ object }} wirklich löschen?</p>

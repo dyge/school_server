@@ -9,11 +9,12 @@ p, li{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:schueler_profil' pk=object.id %}">Zurück</a></p>
 <h4>Schüler:</h4>
 <form action="" method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" class="btn btn-default" value="Speichern" />
+  <button type="submit" class="btn btn-info">{% bootstrap_icon "ok" %}</button>
   <a class="btn btn-danger mybutton" href="{% url 'accounts:schueler_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
 </form>
 {% endblock %}

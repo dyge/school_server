@@ -13,6 +13,7 @@ option{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:kursdetail' pk=object.id %}">Zurück</a></p>
 <h4>Kurs '{{ object }}' bearbeiten</h4>
 <form method="POST" action="{% url 'accounts:kurs_up' pk=object.pk %}" id="kursUpdate">
 	{% csrf_token %}
@@ -24,15 +25,8 @@ option{
     {% if form.bezeichnung.help_text %}
         <p class="help">{{ form.bezeichnung.help_text|safe }}</p>
     {% endif %}
-  </p>
-  <p>
-    {{ form.lehrer.errors }}
-    {{ form.lehrer.label_tag }}
-    {{ form.lehrer }}
-    {% if form.lehrer.help_text %}
-        <p class="help">{{ form.lehrer.help_text|safe }}</p>
-    {% endif %}
   </p> -->
-	<input type="submit" value="Speichern" class="btn btn-info">
+  <button type="submit" class="btn btn-info">{% bootstrap_icon "ok" %}</button>
+	<!-- <input type="submit" value="Speichern" class="btn btn-info"> -->
 </form>
 {% endblock %}
