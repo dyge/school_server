@@ -24,7 +24,7 @@
   <tbody>
     {% for z in object.zeile_set.all %}
       <tr>
-        <td>{% if z.zeit %}{{ z.zeit }}{% endif %}</td>
+        <td>{% if z.beginn %}{{ z.beginn }}{% else %}?{% endif %} - {% if z.ende %}{{ z.ende }}{% else %}?{% endif %}</td>
         <td>{% if z.mo %}{{ z.mo }}{% endif %}</td>
         <td>{% if z.di %}{{ z.di }}{% endif %}</td>
         <td>{% if z.mi %}{{ z.mi }}{% endif %}</td>

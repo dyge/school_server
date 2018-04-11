@@ -19,13 +19,13 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
-class ZeileDelete(DeleteView):
+class ZeileDelete(DeleteView, LoginRequiredMixin):
     model = models.Zeile
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
-class ZeileUpdate(UpdateView):
+class ZeileUpdate(UpdateView, LoginRequiredMixin):
     model = models.Zeile
-    fields = ['zeit', 'mo', 'di', 'mi', 'do', 'fr']
+    fields = ['beginn', 'ende', 'mo', 'di', 'mi', 'do', 'fr']
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
 def zeile_add(request, pk):
@@ -33,15 +33,15 @@ def zeile_add(request, pk):
     res.zeile_set.create()
     return redirect('accounts:klassenuebersicht')
 
-class PlanDelete(DeleteView):
+class PlanDelete(DeleteView, LoginRequiredMixin):
     model = models.Stundenplan
     success_url = reverse_lazy('accounts:uebersicht')
 
-class PlanDetail(DetailView):
+class PlanDetail(DetailView, LoginRequiredMixin):
     model = models.Stundenplan
     template_name = "accounts/stundenplan_detail.html"
 
-class PlanCreate(CreateView):
+class PlanCreate(CreateView, LoginRequiredMixin):
     model = models.Stundenplan
     fields = ['name', 'klasse', ]
     success_url = reverse_lazy('accounts:uebersicht')

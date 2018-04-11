@@ -49,7 +49,8 @@ class Stundenplan(models.Model):
         return self.name
 
 class Zeile(models.Model):
-    zeit = models.CharField(max_length=5)
+    beginn = models.TimeField(blank=True, null=True)
+    ende = models.TimeField(blank=True, null=True)
     mo = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='mo', null=True, blank=True)
     di = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='di', null=True, blank=True)
     mi = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='mi', null=True, blank=True)
@@ -59,7 +60,7 @@ class Zeile(models.Model):
     class Meta:
         verbose_name_plural = 'Zeilen'
     def __str__(self):
-        return self.zeit
+        return str(self.beginn) + ' - ' + str(self.ende)
 
 class Feld(models.Model):
     kurs = models.ForeignKey(Kurs, on_delete=models.CASCADE)
