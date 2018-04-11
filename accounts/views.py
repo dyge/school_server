@@ -88,9 +88,9 @@ class KlasseUpdate(UpdateView, LoginRequiredMixin):
     fields = ['lehrer', 'stellvertreter', ]
     template_name = 'accounts/klassen_update.html'
 
-class UserDetail(DetailView, LoginRequiredMixin):
-    model = User
-    template_name = 'accounts/user_detail.html'
+def get_user_details(request, pk):
+    u = User.objects.get(id=pk)
+    return render(request, 'accounts/user_detail.html', {"u":u})
 
 class KlasseDelete(DeleteView, LoginRequiredMixin):
     model = models.Klassen

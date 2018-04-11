@@ -39,7 +39,6 @@ urlpatterns = [
     url(r'reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',auth_views.password_reset_confirm,{'post_reset_redirect':'accounts:password_reset_complete'}, name='password_reset_confirm'),
     url(r'reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     url(r'schueler/delete/(?P<pk>\d+)/$', views.SchuelerDelete.as_view(), name='schueler_del'),
-    url(r'schueler/profil/(?P<pk>\d+)/$', views.UserDetail.as_view(), name='schueler_profil'),
     url(r'kurs/delete/(?P<pk>\d+)/$', views.KursDelete.as_view(), name='kurs_del'),
     url(r'kurs/erstellen/$', views.KursCreate.as_view(), name='newkurs'),
     url(r'kurs/update/(?P<pk>\d+)/$', views.KursUpdate.as_view(), name='kurs_up'),
@@ -55,4 +54,5 @@ urlpatterns = [
     url(r'stundenplan/zeile/(?P<pk>\d+)/edit/$', views.ZeileUpdate.as_view(), name='zeile_up'),
     url(r'stundenplan/zeile/(?P<pk>\d+)/delete/$', views.ZeileDelete.as_view(), name='zeile_del'),
     url(r'stundenplan/delete/(?P<pk>\d+)/$', views.PlanDelete.as_view(), name='plan_del'),
+    url(r'schueler/profil/(?P<pk>\d+)/$', views.get_user_details, name='schueler_profil'),
 ]

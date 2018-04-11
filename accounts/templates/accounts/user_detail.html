@@ -7,11 +7,11 @@ p{
 }
 {% endblock %}
 {% block body %}
-<p><a href="{% url 'accounts:schueleruebersicht' pk=user.klasse.id %}">Zurück</a></p>
+<p><a href="{% url 'accounts:schueleruebersicht' pk=u.klasse.id %}">Zurück</a></p>
 <h3>Profil</h3>
-<img class="img-circle" src="{% gravatar_url user.email 80 %}" alt="">
+<img class="img-circle" src="{% gravatar_url u.email 80 %}" alt="">
 <p></p>
-<p>Vollständiger Name: {{ user.username }}</p>
-<p>Email-Adresse: {{ user.email }}</p>
-<p>Klasse: {{ user.klasse }}</p>
+<p>Vollständiger Name: {{ u.username }}</p>
+<p>Email-Adresse: {{ u.email }}</p>
+<p>Klasse: {{ u.klasse }}</p>
 {% endblock %}
