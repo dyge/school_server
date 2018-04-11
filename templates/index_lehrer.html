@@ -1,23 +1,44 @@
 {% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
 {% block styling %}
 p, li{
   color: #FFFAFF;
 }
+.myspace{
+  line-height: 2.5;
+}
+.mitte{
+  text-align: center;
+}
+.myul{
+  margin:0;
+  padding:0;
+  text-align: center;
+  list-style:none;
+}
+.myplus{
+  color: #37d353;
+}
 {% endblock %}
 {% block body %}
-<h3>Lehrer</h3>
-<p>Vokabeln hinzufügen</p>
-<ul>
-  <li><a href="{% url 'accounts:new_eng' %}">Englisch</a></li>
-  <li><a href="#">Latein</a></li>
+<h3 class="mitte"><u>Lehrer</u></h3>
+<p class="mitte">Vokabeln hinzufügen:</p>
+<ul class="myul">
+  <li class="myli"><a href="{% url 'accounts:new_eng' %}">Englisch</a></li>
+  <li class="myli"><a href="#">Latein</a></li>
 </ul>
-<h3>Neuigkeiten</h3>
+<br>
+<br>
+<h3 class="mitte"><u>Neuigkeiten</u></h3>
 {% for topic in object_list %}
-    <h4><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <h4 class="mitte"><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <p class="mitte">{{ topic.text|striptags|truncatewords:7|safe }}</p>
+    <br>
 {% empty %}
-    <h4>Keine Neuigkeiten.</h4>
+    <h4 class="mitte">Keine Neuigkeiten.</h4>
 {% endfor %}
-<p></p>
-<p><a href="{% url 'accounts:themen' %}">Alle anzeigen</a></p>
-<p><a href="{% url 'accounts:newthema' %}">Neuigkeit hinzufügen</a></p>
+<p class="mitte"><a href="{% url 'accounts:themen' %}">{% bootstrap_icon "menu-down" %}</a></p>
+<br>
+<br>
+<p class="mitte"><a class="myplus" href="{% url 'accounts:newthema' %}">{% bootstrap_icon "plus" %} Neuigkeit</a></p>
 {% endblock %}

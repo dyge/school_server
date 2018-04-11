@@ -1,0 +1,18 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+#id_name, #id_klasse{
+  color: #000000;
+}
+{% endblock %}
+{% block body %}
+<h4>Stundenplan hinzufügen</h4>
+<form method="POST" action="{% url 'accounts:plan_add' %}" id="planForm">
+	{% csrf_token %}
+  {{ form.as_p }}
+	<input type="submit" value="Hinzufügen" class="btn btn-info">
+</form>
+{% endblock %}

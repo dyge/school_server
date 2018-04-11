@@ -5,6 +5,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django import forms
 from django_summernote.admin import SummernoteModelAdmin
+import nested_admin
+
+class FelderInline(nested_admin.NestedStackedInline):
+    model = models.Feld
+    extra = 5
+
+class ZeilenInline(nested_admin.NestedStackedInline):
+    model = models.Zeile
+    inlines = [FelderInline, ]
+    extra = 8
+
+class StundenplanAdmin(nested_admin.NestedModelAdmin):
+    inlines = [ZeilenInline, ]
 
 class KursAdmin(admin.ModelAdmin):
     filter_horizontal = ('teilnehmer',)
@@ -53,3 +66,4 @@ admin.site.register(models.Fach)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(models.Thema, ThemaAdmin)
+admin.site.register(models.Stundenplan, StundenplanAdmin)

@@ -49,4 +49,10 @@ urlpatterns = [
     url(r'verwaltung/ohne/klasse/$', views.OhneKlasse.as_view(), name='ohne_klasse'),
     url(r'verwaltung/ohne/kurs/$', views.OhneKurs.as_view(), name='ohne_kurs'),
     url(r'add/all/klasse/(?P<pk>\d+)/$', views.all_klasse, name='add_all_klasse'),
+    url(r'stundenplan/add/$', views.PlanCreate.as_view(), name='plan_add'),
+    url(r'stundenplan/detail/(?P<pk>\d+)/$', views.PlanDetail.as_view(), name='plan_detail'),
+    url(r'stundenplan/(?P<pk>\d+)/zeile/add/$', views.zeile_add, name='zeile_add'),
+    url(r'stundenplan/zeile/(?P<pk>\d+)/edit/$', views.ZeileUpdate.as_view(), name='zeile_up'),
+    url(r'stundenplan/zeile/(?P<pk>\d+)/delete/$', views.ZeileDelete.as_view(), name='zeile_del'),
+    url(r'stundenplan/delete/(?P<pk>\d+)/$', views.PlanDelete.as_view(), name='plan_del'),
 ]

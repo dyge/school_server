@@ -15,6 +15,9 @@ li{
 <h3>Klasse {{ klassen.bezeichnung }}</h3>
 <h4>Klassenleiter: {{ klassen.lehrer }}</h4>
 <h4>Stellvertreter: {{ klassen.stellvertreter }}</h4>
+{% for s in klassen.stundenplan_set.all %}
+<h4>Stundenplan: <a href="#">{{ s.name }}</a></h4>
+{% endfor %}
 <h4>Schüler:</h4>
 <table>
   <thead>
@@ -43,5 +46,8 @@ li{
   </tbody>
 </table>
 <p></p>
-<a href="{% url 'accounts:newschueler' %}" class="myplus">{% bootstrap_icon "plus" %} Schueler</a>
+<p><a href="{% url 'accounts:newschueler' %}" class="myplus">{% bootstrap_icon "plus" %} Schueler</a></p>
+{% if not klassen.stundenplan_set.all %}
+<p><a href="{% url 'accounts:plan_add' %}" class="myplus">{% bootstrap_icon "plus" %} Stundenplan</a></p>
+{% endif %}
 {% endblock %}

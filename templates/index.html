@@ -1,18 +1,25 @@
 {% extends "base_index.html" %}
 {% load bootstrap3 %}
 {% block styling %}
+p{
+  color: #FFFAFF;
+}
 h3, h4{
   color: #FFFAFF;
 }
+.mitte{
+  text-align: center;
+}
 {% endblock %}
 {% block body %}
-  <h1>Willkommen zum Schulserver!</h1>
-  <h3>Neuigkeiten</h3>
+  <h1 class="mitte">Willkommen zum Schulserver!</h1>
+  <h3 class="mitte">Neuigkeiten</h3>
   {% for topic in object_list %}
-      <h4><a href="{% url 'accounts:thema_detail_official' pk=topic.id %}">{{ topic.title }}</a></h4>
+      <h4 class="mitte"><a href="{% url 'accounts:thema_detail_official' pk=topic.id %}">{{ topic.title }}</a></h4>
+      <p class="mitte">{{ topic.text|striptags|truncatewords:7|safe }}</p>
+      <br>
   {% empty %}
-      <h4>Keine Neuigkeiten.</h4>
+      <h4 class="mitte">Keine Neuigkeiten.</h4>
   {% endfor %}
-  <p></p>
-  <p><a href="{% url 'accounts:themen_official' %}">Alle anzeigen</a></p>
+  <p class="mitte"><a href="{% url 'accounts:themen_official' %}">{% bootstrap_icon "menu-down" %}</a></p>
 {% endblock %}

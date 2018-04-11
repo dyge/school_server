@@ -15,6 +15,7 @@
       <th>Klasse</th>
       <th>Klassenleiter</th>
       <th>Stellvertreter</th>
+      <th>Stundenplan</th>
       <th></th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td>{{ klass.bezeichnung }}</td>
         <td>{{ klass.lehrer }}</span></td>
         <td>{{ klass.stellvertreter }}</td>
+        <td>{% for s in klass.stundenplan_set.all %}<a href="{% url 'accounts:plan_detail' pk=s.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> {% endfor %}</td>
         <td><a href="{% url 'accounts:schueleruebersicht' pk=klass.id %}" class="btn btn-default">{% bootstrap_icon "eye-open" %}</a> <a href="{% url 'accounts:klasse_up' pk=klass.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a> <a href="{% url 'accounts:klasse_del' pk=klass.id %}" class="btn btn-danger">{% bootstrap_icon "trash" %}</a></td>
       </tr>
     {% empty %}

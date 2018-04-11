@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/',include("accounts.urls")),
     url(r'^summernote/', include('django_summernote.urls')),
+    url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^about/$', views.AboutView.as_view(), name='about'),
     url(r'^$',views.HomePage.as_view(),name='home'),
 ]

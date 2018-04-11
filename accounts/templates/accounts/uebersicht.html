@@ -14,6 +14,8 @@ p, li, h5{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:index_lehrer' %}">Zurück</a></p>
+<br>
 <div class="row">
   <div class="col-md-6">
     <form class="form-inline" method="POST" action="{% url 'accounts:uebersicht' %}">

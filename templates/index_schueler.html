@@ -1,19 +1,25 @@
 {% extends "base_schueler.html" %}
 {% load staticfiles %}
+{% load bootstrap3 %}
 {% block styling %}
 p{
   color: #FFFAFF;
 }
+.mitte{
+  text-align: center;
+}
 {% endblock %}
 {% block body %}
-<h3>Schüler</h3>
-<p>Hier kann der Vokabel-Test gestartet werden: <a href="{% url 'accounts:testqu' %}">Test starten</a></p>
-<h3>Neuigkeiten</h3>
+<h3 class="mitte">Schüler</h3>
+<p class="mitte">Hier kann der Vokabel-Test gestartet werden: <a href="{% url 'accounts:testqu' %}">Test starten</a></p>
+<br>
+<h3 class="mitte">Neuigkeiten</h3>
 {% for topic in object_list %}
-    <h4><a href="{% url 'accounts:thema_detail_schueler' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <h4 class="mitte"><a href="{% url 'accounts:thema_detail_schueler' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <p class="mitte">{{ topic.text|striptags|truncatewords:7|safe }}</p>
+    <br>
 {% empty %}
-    <h4>Keine Neuigkeiten.</h4>
+    <h4 class="mitte">Keine Neuigkeiten.</h4>
 {% endfor %}
-<p></p>
-<p><a href="{% url 'accounts:themen_schueler' %}">Alle anzeigen</a></p>
+<p class="mitte"><a href="{% url 'accounts:themen_schueler' %}">{% bootstrap_icon "menu-down" %}</a></p>
 {% endblock %}

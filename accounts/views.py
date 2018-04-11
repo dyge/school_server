@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
@@ -19,9 +19,35 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+class ZeileDelete(DeleteView):
+    model = models.Zeile
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+
+class ZeileUpdate(UpdateView):
+    model = models.Zeile
+    fields = ['zeit', 'mo', 'di', 'mi', 'do', 'fr']
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+
+def zeile_add(request, pk):
+    res = models.Stundenplan.objects.get(id=pk)
+    res.zeile_set.create()
+    return redirect('accounts:klassenuebersicht')
+
+class PlanDelete(DeleteView):
+    model = models.Stundenplan
+    success_url = reverse_lazy('accounts:uebersicht')
+
+class PlanDetail(DetailView):
+    model = models.Stundenplan
+    template_name = "accounts/stundenplan_detail.html"
+
+class PlanCreate(CreateView):
+    model = models.Stundenplan
+    fields = ['name', 'klasse', ]
+    success_url = reverse_lazy('accounts:uebersicht')
+
 def all_klasse(request, pk):
     res = models.Kurs.objects.get(id=pk)
-    print(res.klasse)
     k = User.objects.filter(klasse=res.klasse).exclude(groups__name='Lehrer')
     for i in k:
         myid = i.id
@@ -127,7 +153,7 @@ class KursDelete(DeleteView, LoginRequiredMixin):
 
 class SchuelerDelete(DeleteView, LoginRequiredMixin):
     model = User
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('accounts:uebersicht')
     template_name = 'accounts/user_confirm_delete.html'
 
 class KursDetailView(DetailView, LoginRequiredMixin):

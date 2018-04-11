@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_gravatar',
     'django_summernote',
+    'nested_admin',
     'accounts',
 ]
 

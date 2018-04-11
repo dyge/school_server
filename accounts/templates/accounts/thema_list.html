@@ -1,12 +1,28 @@
 {% extends "base_lehrer.html" %}
 {% load bootstrap3 %}
+{% block styling %}
+.mitte{
+  text-align: center;
+}
+p{
+  color: #FFFAFF;
+}
+.myplus{
+  color: #37d353;
+}
+{% endblock %}
 {% block body %}
 <a href="{% url 'accounts:index_lehrer' %}">Zurück</a>
 <p></p>
-<h3>Neuigkeiten</h3>
+<h3 class="mitte">Neuigkeiten</h3>
 {% for topic in object_list %}
-    <h4><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <h4 class="mitte"><a href="{% url 'accounts:thema_detail' pk=topic.id %}">{{ topic.title }}</a></h4>
+    <p class="mitte">{{ topic.text|striptags|truncatewords:7|safe }}</p>
+    <br>
 {% empty %}
     <h4>Keine Neuigkeiten.</h4>
 {% endfor %}
+<br>
+<br>
+<p class="mitte"><a class="myplus" href="{% url 'accounts:newthema' %}">{% bootstrap_icon "plus" %} Neuigkeit</a></p>
 {% endblock %}

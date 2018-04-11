@@ -1,0 +1,16 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:klassenuebersicht' %}">Zurück</a></p>
+<h4>Löschen?</h4>
+<form action="" method="post">
+  {% csrf_token %}
+  <p>Wollen sie die Zeile '{{ object }}' wirklich löschen?</p>
+  <input type="submit" value="Löschen" class="btn btn-danger" />
+</form>
+{% endblock %}

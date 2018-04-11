@@ -6,6 +6,7 @@ label{
 }
 {% endblock %}
 {% block body %}
+<p><a href="{% url 'accounts:uebersicht' %}">Zurück</a></p>
 <form class="form-inline" method="POST" action="{% url 'accounts:schueler_plus' pk=kurs.id %}">
   {% csrf_token %}
   <div class="form-group">
