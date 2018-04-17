@@ -11,8 +11,9 @@
   {% if user.is_authenticated %}
   <ul class="dropdown-menu">
     <li><a href="{% url 'accounts:lehrerprofil' username=user.get_username %}">Profil</a></li>
-      <li role="separator" class="divider"></li>
-      <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+    <li><a href="{% url 'accounts:lehrer_plan_detail' %}">Mein Stundenplan</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
   </ul>
   {% endif %}
 </li>

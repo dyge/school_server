@@ -1,0 +1,25 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p, li{
+  color: #FFFAFF;
+}
+.tab{
+  margin-left: 20px;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:raum_list' %}">Zurück</a></p>
+<h3>Raum: {{ object.bezeichnung }}</h3>
+<h4>Ausstattung:</h4>
+{% if object.beschreibung %}
+  <div class="tab">
+    <p>{{ object.beschreibung|linebreaks }}</p>
+  </div>
+{% else %}
+  <p class='tab'>Keine Angaben.</p>
+{% endif %}
+<p></p>
+<a class="btn btn-default mybutton" href="{% url 'accounts:raum_up' pk=object.id %}">{% bootstrap_icon "pencil" %}</a>
+<a class="btn btn-danger mybutton" href="{% url 'accounts:raum_del' pk=object.id %}">{% bootstrap_icon "trash" %}</a>
+{% endblock %}

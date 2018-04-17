@@ -7,7 +7,7 @@
 }
 {% endblock %}
 {% block body %}
-<p><a href="{% url 'accounts:klassenuebersicht' %}">Zurück</a></p>
+<p><a href="{% url 'accounts:schueleruebersicht' pk=object.klasse.id %}">Zurück</a></p>
 <h4>Klasse {{ object.klasse }}: {{ object.name }}</h4>
 <table>
   <thead>
@@ -24,12 +24,16 @@
   <tbody>
     {% for z in object.zeile_set.all %}
       <tr>
-        <td>{% if z.beginn %}{{ z.beginn }}{% else %}?{% endif %} - {% if z.ende %}{{ z.ende }}{% else %}?{% endif %}</td>
-        <td>{% if z.mo %}{{ z.mo }}{% endif %}</td>
-        <td>{% if z.di %}{{ z.di }}{% endif %}</td>
-        <td>{% if z.mi %}{{ z.mi }}{% endif %}</td>
-        <td>{% if z.do %}{{ z.do }}{% endif %}</td>
-        <td>{% if z.fr %}{{ z.fr }}{% endif %}</td>
+        {% if z.beginn and z.ende %}
+          <td>{{ z.beginn }} - {{ z.ende }}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        <td>{% if z.mo %}{{ z.mo }}<br/>{{ z.mo.lehrer }}{% endif %}<br/>{% if z.moraum %}Raum {{ z.moraum }}{% endif %}</td>
+        <td>{% if z.di %}{{ z.di }}<br/>{{ z.mo.lehrer }}{% endif %}<br/>{% if z.diraum %}Raum {{ z.diraum }}{% endif %}</td>
+        <td>{% if z.mi %}{{ z.mi }}<br/>{{ z.mo.lehrer }}{% endif %}<br/>{% if z.miraum %}Raum {{ z.miraum }}{% endif %}</td>
+        <td>{% if z.do %}{{ z.do }}<br/>{{ z.mo.lehrer }}{% endif %}<br/>{% if z.doraum %}Raum {{ z.doraum }}{% endif %}</td>
+        <td>{% if z.fr %}{{ z.fr }}<br/>{{ z.mo.lehrer }}{% endif %}<br/>{% if z.frraum %}Raum {{ z.frraum }}{% endif %}</td>
         <td><a href="{% url 'accounts:zeile_up' pk=z.id %}" class="btn btn-default">{% bootstrap_icon "pencil" %}</a> <a href="{% url 'accounts:zeile_del' pk=z.id %}" class="btn btn-danger">{% bootstrap_icon "trash" %}</a></td>
       </tr>
     {% empty %}

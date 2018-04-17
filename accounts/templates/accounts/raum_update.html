@@ -1,0 +1,20 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block styling %}
+p, label{
+  color: #FFFAFF;
+}
+#id_bezeichnung, #id_beschreibung{
+  color: #000000;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:raum_list' %}">Zurück</a></p>
+<h4>Beschreibung von Raum '{{ object.bezeichnung }}' bearbeiten</h4>
+<form method="POST" action="{% url 'accounts:raum_up' pk=object.id %}" id="raumUpdate">
+	{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-info">Speichern</button>
+</form>
+{% endblock %}

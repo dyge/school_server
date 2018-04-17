@@ -19,23 +19,226 @@ from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
 
+def lehrer_plan_detail_pk(request):
+    try:
+        mypk = request.user.id
+        s = models.LehrerStundenplan.objects.filter(lehrer__id=mypk).first()
+        return render(request, 'accounts/lehrer_stundenplan_detail.html', {'object':s})
+    except:
+        return HttpResponse('Kein Stundenplan')
+
+class RaumCreate(CreateView, LoginRequiredMixin):
+    model = models.Raum
+    fields = ['bezeichnung', 'beschreibung']
+    success_url = reverse_lazy('accounts:uebersicht')
+
+class RaumDelete(DeleteView, LoginRequiredMixin):
+    model = models.Raum
+    success_url = reverse_lazy('accounts:uebersicht')
+
+class RaumUpdate(UpdateView, LoginRequiredMixin):
+    model = models.Raum
+    template_name = 'accounts/raum_update.html'
+    fields = ['bezeichnung', 'beschreibung']
+    success_url = reverse_lazy('accounts:raum_list')
+
+class RaumDetail(DetailView, LoginRequiredMixin):
+    model = models.Raum
+
+def raum_liste(request):
+    raeume = models.Raum.objects.all()
+    mypattern = request.POST.get('search')
+    if mypattern:
+        raeume = models.Raum.objects.filter(beschreibung__contains=mypattern)
+    return render(request, 'accounts/raum_list.html', {'objects':raeume})
+
+
+
+
+
+
+class LehrerZeileDelete(DeleteView, LoginRequiredMixin):
+    model = models.LehrerZeile
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+
+class LehrerZeileUpdate(UpdateView, LoginRequiredMixin):
+    model = models.LehrerZeile
+    fields = ['beginn', 'ende', 'mo', 'di', 'mi', 'do', 'fr']
+    success_url = reverse_lazy('accounts:klassenuebersicht')
+    def form_valid(self, form):
+        b = form.cleaned_data['beginn']
+        print(b)
+        e = form.cleaned_data['ende']
+        print(e)
+        if b or e:
+            if b and e:
+                return super().form_valid(form)
+            elif b:
+                form.add_error("ende","Ende wird benötigt.")
+                return self.form_invalid(form)
+            else:
+                form.add_error("beginn","Beginn wird benötigt.")
+                return self.form_invalid(form)
+        return super().form_valid(form)
+
+def lehrer_zeile_add(request):
+    mypk = request.user.id
+    s = models.LehrerStundenplan.objects.filter(lehrer__id=mypk).first()
+    print(s)
+    s.lehrerzeile_set.create()
+    print(s.lehrerzeile_set)
+    return redirect('accounts:lehrer_plan_detail')
+
+class LehrerPlanDelete(DeleteView, LoginRequiredMixin):
+    model = models.LehrerStundenplan
+    success_url = reverse_lazy('accounts:uebersicht')
+
+class LehrerPlanCreate(CreateView, LoginRequiredMixin):
+    model = models.LehrerStundenplan
+    fields = ['name', 'klasse', ]
+    success_url = reverse_lazy('accounts:uebersicht')
+
+
+
+
+
 class ZeileDelete(DeleteView, LoginRequiredMixin):
     model = models.Zeile
     success_url = reverse_lazy('accounts:klassenuebersicht')
 
 class ZeileUpdate(UpdateView, LoginRequiredMixin):
     model = models.Zeile
-    fields = ['beginn', 'ende', 'mo', 'di', 'mi', 'do', 'fr']
+    fields = ['beginn', 'ende', 'mo', 'moraum', 'di', 'diraum', 'mi', 'miraum', 'do', 'doraum', 'fr', 'frraum']
     success_url = reverse_lazy('accounts:klassenuebersicht')
+    def form_valid(self, form):
+        b = form.cleaned_data['beginn']
+        e = form.cleaned_data['ende']
+        if b or e:
+            if b and e:
+                line = form.instance
+                line2 = models.Zeile.objects.get(id=line.id)
+                if line2.moraum:
+                    if line2.moraum.belegung_set:
+                        try:
+                            models.Belegung.objects.get(tag='mo', beginn=line2.beginn).delete()
+                        except:
+                            pass
+                if line.moraum:
+                    if line.moraum.belegung_set.all():
+                        for i in line.moraum.belegung_set.all():
+                            if (line.beginn >= i.beginn) and (line.beginn < i.ende):
+                                form.add_error("moraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (line.ende > i.beginn) and (line.ende <= i.ende):
+                                form.add_error("moraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
+                                form.add_error("moraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                    be1 = models.Belegung.objects.create(raum=form.instance.moraum, tag='mo', beginn=b, ende=e)
+                if line2.diraum:
+                    if line2.diraum.belegung_set:
+                        try:
+                            models.Belegung.objects.get(tag='di', beginn=line2.beginn).delete()
+                        except:
+                            pass
+                if line.diraum:
+                    if line.diraum.belegung_set.all():
+                        for i in line.diraum.belegung_set.all():
+                            if (line.beginn >= i.beginn) and (line.beginn < i.ende):
+                                form.add_error("diraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (line.ende > i.beginn) and (line.ende <= i.ende):
+                                form.add_error("diraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
+                                form.add_error("diraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                    be2 = models.Belegung.objects.create(raum=form.instance.diraum, tag='di', beginn=b, ende=e)
+                if line2.miraum:
+                    if line2.miraum.belegung_set:
+                        try:
+                            models.Belegung.objects.get(tag='mi', beginn=line2.beginn).delete()
+                        except:
+                            pass
+                if line.miraum:
+                    if line.miraum.belegung_set.all():
+                        for i in line.miraum.belegung_set.all():
+                            if (line.beginn >= i.beginn) and (line.beginn < i.ende):
+                                form.add_error("miraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (line.ende > i.beginn) and (line.ende <= i.ende):
+                                form.add_error("miraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
+                                form.add_error("miraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                    be3 = models.Belegung.objects.create(raum=form.instance.miraum, tag='mi', beginn=b, ende=e)
+                if line2.doraum:
+                    if line2.doraum.belegung_set:
+                        try:
+                            models.Belegung.objects.get(tag='do', beginn=line2.beginn).delete()
+                        except:
+                            pass
+                if line.doraum:
+                    if line.doraum.belegung_set.all():
+                        for i in line.doraum.belegung_set.all():
+                            if (line.beginn >= i.beginn) and (line.beginn < i.ende):
+                                form.add_error("doraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (line.ende > i.beginn) and (line.ende <= i.ende):
+                                form.add_error("doraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
+                                form.add_error("doraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                    be4 = models.Belegung.objects.create(raum=form.instance.doraum, tag='do', beginn=b, ende=e)
+                if line2.frraum:
+                    if line2.frraum.belegung_set:
+                        try:
+                            models.Belegung.objects.get(tag='fr', beginn=line2.beginn).delete()
+                        except:
+                            pass
+                if line.frraum:
+                    if line.frraum.belegung_set.all():
+                        for i in line.frraum.belegung_set.all():
+                            if (line.beginn >= i.beginn) and (line.beginn < i.ende):
+                                form.add_error("frraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (line.ende > i.beginn) and (line.ende <= i.ende):
+                                form.add_error("frraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                            elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
+                                form.add_error("frraum","Raum bereits belegt.")
+                                return self.form_invalid(form)
+                    be5 = models.Belegung.objects.create(raum=form.instance.frraum, tag='fr', beginn=b, ende=e)
+                return super().form_valid(form)
+            elif b:
+                form.add_error("ende","Ende wird benötigt.")
+                return self.form_invalid(form)
+            else:
+                form.add_error("beginn","Beginn wird benötigt.")
+                return self.form_invalid(form)
+        mor = form.cleaned_data['moraum']
+        dir = form.cleaned_data['diraum']
+        mir = form.cleaned_data['miraum']
+        dor = form.cleaned_data['doraum']
+        frr = form.cleaned_data['frraum']
+        l = [mor, dir, mir, dor, frr]
+        for i in l:
+            if i and not b and not e:
+                form.add_error("beginn","Zeitangaben werden benötigt, wenn ein Raum reserviert werden soll.")
+                return self.form_invalid(form)
+        return super().form_valid(form)
 
 def zeile_add(request, pk):
     res = models.Stundenplan.objects.get(id=pk)
     res.zeile_set.create()
-    return redirect('accounts:klassenuebersicht')
+    return redirect('accounts:plan_detail', pk=pk)
 
 class PlanDelete(DeleteView, LoginRequiredMixin):
     model = models.Stundenplan
-    success_url = reverse_lazy('accounts:uebersicht')
+    success_url = reverse_lazy('accounts:klassenuebersicht')
 
 class PlanDetail(DetailView, LoginRequiredMixin):
     model = models.Stundenplan
@@ -44,7 +247,7 @@ class PlanDetail(DetailView, LoginRequiredMixin):
 class PlanCreate(CreateView, LoginRequiredMixin):
     model = models.Stundenplan
     fields = ['name', 'klasse', ]
-    success_url = reverse_lazy('accounts:uebersicht')
+    success_url = reverse_lazy('accounts:klassenuebersicht')
 
 def all_klasse(request, pk):
     res = models.Kurs.objects.get(id=pk)

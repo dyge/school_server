@@ -52,7 +52,6 @@ li{
 {% if kurs.klasse %}
   <p><a class="myplus" href="{% url 'accounts:add_all_klasse' pk=object.id %}">Alle Schüler der Klasse {{ kurs.klasse }} hinzufügen</a></p>
 {% endif %}
-
 <!-- <ul>
   {% for schueler in kurs.teilnehmer.all %}
     <li><a href="{% url 'accounts:schuelerchange' pk=schueler.id %}">{{ schueler.username }}</a></li>

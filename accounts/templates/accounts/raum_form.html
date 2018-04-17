@@ -1,0 +1,17 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block styling %}
+label{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:uebersicht' %}">Zurück</a></p>
+<h4>Raum hinzufügen</h4>
+<form method="POST" action="{% url 'accounts:raum_add' %}" id="raumForm">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Hinzufügen" class="btn btn-info">
+</form>
+{% endblock %}

@@ -19,6 +19,18 @@ class ZeilenInline(nested_admin.NestedStackedInline):
 class StundenplanAdmin(nested_admin.NestedModelAdmin):
     inlines = [ZeilenInline, ]
 
+class LehrerFelderInline(nested_admin.NestedStackedInline):
+    model = models.LehrerFeld
+    extra = 5
+
+class LehrerZeilenInline(nested_admin.NestedStackedInline):
+    model = models.LehrerZeile
+    inlines = [LehrerFelderInline, ]
+    extra = 8
+
+class LehrerStundenplanAdmin(nested_admin.NestedModelAdmin):
+    inlines = [LehrerZeilenInline, ]
+
 class KursAdmin(admin.ModelAdmin):
     filter_horizontal = ('teilnehmer',)
 
@@ -67,3 +79,6 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(models.Thema, ThemaAdmin)
 admin.site.register(models.Stundenplan, StundenplanAdmin)
+admin.site.register(models.LehrerStundenplan, LehrerStundenplanAdmin)
+admin.site.register(models.Belegung)
+admin.site.register(models.Raum)
