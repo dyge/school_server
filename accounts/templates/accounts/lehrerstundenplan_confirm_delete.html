@@ -1,0 +1,16 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:lehrer_plan_detail' %}">Zurück</a></p>
+<h4>Löschen?</h4>
+<form action="" method="post">
+  {% csrf_token %}
+  <p>Wollen sie den Stundenplan für {{ object.lehrer }} wirklich löschen?</p>
+  <input type="submit" value="Löschen" class="btn btn-danger" />
+</form>
+{% endblock %}

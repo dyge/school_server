@@ -25,7 +25,7 @@ def lehrer_plan_detail_pk(request):
         s = models.LehrerStundenplan.objects.filter(lehrer__id=mypk).first()
         return render(request, 'accounts/lehrer_stundenplan_detail.html', {'object':s})
     except:
-        return HttpResponse('Kein Stundenplan')
+        return render(request, 'accounts/kein_stundenplan.html')
 
 class RaumCreate(CreateView, LoginRequiredMixin):
     model = models.Raum
@@ -52,24 +52,17 @@ def raum_liste(request):
         raeume = models.Raum.objects.filter(beschreibung__contains=mypattern)
     return render(request, 'accounts/raum_list.html', {'objects':raeume})
 
-
-
-
-
-
 class LehrerZeileDelete(DeleteView, LoginRequiredMixin):
     model = models.LehrerZeile
-    success_url = reverse_lazy('accounts:klassenuebersicht')
+    success_url = reverse_lazy('accounts:lehrer_plan_detail')
 
 class LehrerZeileUpdate(UpdateView, LoginRequiredMixin):
     model = models.LehrerZeile
     fields = ['beginn', 'ende', 'mo', 'di', 'mi', 'do', 'fr']
-    success_url = reverse_lazy('accounts:klassenuebersicht')
+    success_url = reverse_lazy('accounts:lehrer_plan_detail')
     def form_valid(self, form):
         b = form.cleaned_data['beginn']
-        print(b)
         e = form.cleaned_data['ende']
-        print(e)
         if b or e:
             if b and e:
                 return super().form_valid(form)
@@ -84,9 +77,7 @@ class LehrerZeileUpdate(UpdateView, LoginRequiredMixin):
 def lehrer_zeile_add(request):
     mypk = request.user.id
     s = models.LehrerStundenplan.objects.filter(lehrer__id=mypk).first()
-    print(s)
     s.lehrerzeile_set.create()
-    print(s.lehrerzeile_set)
     return redirect('accounts:lehrer_plan_detail')
 
 class LehrerPlanDelete(DeleteView, LoginRequiredMixin):
@@ -95,12 +86,9 @@ class LehrerPlanDelete(DeleteView, LoginRequiredMixin):
 
 class LehrerPlanCreate(CreateView, LoginRequiredMixin):
     model = models.LehrerStundenplan
-    fields = ['name', 'klasse', ]
-    success_url = reverse_lazy('accounts:uebersicht')
-
-
-
-
+    fields = ['name', 'lehrer', ]
+    template_name = 'accounts/lehrerstundenplan_form.html'
+    success_url = reverse_lazy('accounts:lehrer_plan_detail')
 
 class ZeileDelete(DeleteView, LoginRequiredMixin):
     model = models.Zeile

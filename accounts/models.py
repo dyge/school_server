@@ -77,10 +77,15 @@ class LehrerZeile(models.Model):
     beginn = models.TimeField(blank=True, null=True)
     ende = models.TimeField(blank=True, null=True)
     mo = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='lmo', null=True, blank=True)
+    moraum = models.ForeignKey(Raum, on_delete=models.CASCADE, related_name='lmoraum', null=True, blank=True)
     di = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='ldi', null=True, blank=True)
+    diraum = models.ForeignKey(Raum, on_delete=models.CASCADE, related_name='ldiraum', null=True, blank=True)
     mi = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='lmi', null=True, blank=True)
+    miraum = models.ForeignKey(Raum, on_delete=models.CASCADE, related_name='lmiraum', null=True, blank=True)
     do = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='ldo', null=True, blank=True)
+    doraum = models.ForeignKey(Raum, on_delete=models.CASCADE, related_name='ldoraum', null=True, blank=True)
     fr = models.ForeignKey(Kurs, on_delete=models.CASCADE, related_name='lfr', null=True, blank=True)
+    frraum = models.ForeignKey(Raum, on_delete=models.CASCADE, related_name='lfrraum', null=True, blank=True)
     s = models.ForeignKey(LehrerStundenplan, on_delete=models.CASCADE)
     class Meta:
         verbose_name_plural = 'Lehrer-Zeilen'

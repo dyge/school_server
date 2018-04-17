@@ -44,12 +44,12 @@ class EngAdmin(admin.ModelAdmin):
 class UserChangeFormExtended(UserChangeForm):
     def __init__(self, *args, **kargs):
         super(UserChangeFormExtended, self).__init__(*args, **kargs)
-        self.fields['klasse'] = forms.ModelChoiceField(label="Klasse", queryset=models.Klassen.objects.all())
+        self.fields['klasse'] = forms.ModelChoiceField(label="Klasse", queryset=models.Klassen.objects.all(), required=False)
 
 class UserCreationFormExtended(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationFormExtended, self).__init__(*args, **kwargs)
-        self.fields['klasse'] = forms.ModelChoiceField(label="Klasse", queryset=models.Klassen.objects.all())
+        self.fields['klasse'] = forms.ModelChoiceField(label="Klasse", queryset=models.Klassen.objects.all(), required=False)
 
 UserAdmin.form = UserChangeFormExtended
 

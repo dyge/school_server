@@ -48,6 +48,11 @@ urlpatterns = [
     url(r'verwaltung/ohne/klasse/$', views.OhneKlasse.as_view(), name='ohne_klasse'),
     url(r'verwaltung/ohne/kurs/$', views.OhneKurs.as_view(), name='ohne_kurs'),
     url(r'add/all/klasse/(?P<pk>\d+)/$', views.all_klasse, name='add_all_klasse'),
+    url(r'lehrer/stundenplan/add/$', views.LehrerPlanCreate.as_view(), name='lehrer_plan_add'),
+    url(r'lehrer/stundenplan/zeile/add/$', views.lehrer_zeile_add, name='lehrer_zeile_add'),
+    url(r'lehrer/stundenplan/zeile/(?P<pk>\d+)/edit/$', views.LehrerZeileUpdate.as_view(), name='lehrer_zeile_up'),
+    url(r'lehrer/stundenplan/zeile/(?P<pk>\d+)/delete/$', views.LehrerZeileDelete.as_view(), name='lehrer_zeile_del'),
+    url(r'lehrer/stundenplan/delete/(?P<pk>\d+)/$', views.LehrerPlanDelete.as_view(), name='lehrer_plan_del'),
     url(r'stundenplan/add/$', views.PlanCreate.as_view(), name='plan_add'),
     url(r'stundenplan/detail/(?P<pk>\d+)/$', views.PlanDetail.as_view(), name='plan_detail'),
     url(r'stundenplan/(?P<pk>\d+)/zeile/add/$', views.zeile_add, name='zeile_add'),
@@ -60,11 +65,6 @@ urlpatterns = [
     url(r'raeume/liste/$', views.raum_liste, name='raum_list'),
     url(r'raum/(?P<pk>\d+)/update/$', views.RaumUpdate.as_view(), name='raum_up'),
     url(r'raum/(?P<pk>\d+)/detail/$', views.RaumDetail.as_view(), name='raum_detail'),
-
-    url(r'lehrer/stundenplan/add/$', views.LehrerPlanCreate.as_view(), name='lehrer_plan_add'),
     url(r'lehrer/pk/stundenplan/detail/$', views.lehrer_plan_detail_pk, name='lehrer_plan_detail'),
-    url(r'lehrer/stundenplan/zeile/add/$', views.lehrer_zeile_add, name='lehrer_zeile_add'),
-    url(r'lehrer/stundenplan/zeile/(?P<pk>\d+)/edit/$', views.LehrerZeileUpdate.as_view(), name='lehrer_zeile_up'),
-    url(r'lehrer/stundenplan/zeile/(?P<pk>\d+)/delete/$', views.LehrerZeileDelete.as_view(), name='lehrer_zeile_del'),
-    url(r'lehrer/stundenplan/delete/(?P<pk>\d+)/$', views.LehrerPlanDelete.as_view(), name='lehrer_plan_del'),
+
 ]

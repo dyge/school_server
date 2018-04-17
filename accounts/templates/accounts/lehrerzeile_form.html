@@ -1,0 +1,16 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+ul, label{
+  color: #FFFAFF;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:lehrer_plan_detail' %}">Zurück</a></p>
+<h4>Bearbeiten</h4>
+<form method="POST" action="{% url 'accounts:lehrer_zeile_up' pk=object.id %}" id="lzeileForm">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Speichern" class="btn btn-info">
+</form>
+{% endblock %}
