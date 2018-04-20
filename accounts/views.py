@@ -18,6 +18,17 @@ from random import randint
 from django.contrib.auth.models import User
 from django.contrib import messages #
 from django.core.mail import send_mail
+from django.conf import settings
+from django.views.generic import DetailView
+from django_weasyprint import WeasyTemplateResponseMixin
+
+class BelegungPdf(WeasyTemplateResponseMixin, DetailView, LoginRequiredMixin):
+    model = models.Raum
+    template_name = 'accounts/belegungen_pdf.html'
+
+class BelegungListe(DetailView, LoginRequiredMixin):
+    model = models.Raum
+    template_name = 'accounts/belegung_liste.html'
 
 def lehrer_plan_detail_pk(request):
     try:
@@ -96,7 +107,7 @@ class ZeileDelete(DeleteView, LoginRequiredMixin):
 
 class ZeileUpdate(UpdateView, LoginRequiredMixin):
     model = models.Zeile
-    fields = ['beginn', 'ende', 'mo', 'moraum', 'di', 'diraum', 'mi', 'miraum', 'do', 'doraum', 'fr', 'frraum']
+    fields = ['beginn', 'ende', 'mo', 'molehrer', 'moraum', 'di', 'dilehrer', 'diraum', 'mi', 'milehrer', 'miraum', 'do', 'dolehrer', 'doraum', 'fr', 'frlehrer', 'frraum']
     success_url = reverse_lazy('accounts:klassenuebersicht')
     def form_valid(self, form):
         b = form.cleaned_data['beginn']
@@ -123,7 +134,7 @@ class ZeileUpdate(UpdateView, LoginRequiredMixin):
                             elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
                                 form.add_error("moraum","Raum bereits belegt.")
                                 return self.form_invalid(form)
-                    be1 = models.Belegung.objects.create(raum=form.instance.moraum, tag='mo', beginn=b, ende=e)
+                    be1 = models.Belegung.objects.create(raum=form.instance.moraum, tag='mo', beginn=b, ende=e, course=line.mo)
                 if line2.diraum:
                     if line2.diraum.belegung_set:
                         try:
@@ -142,7 +153,7 @@ class ZeileUpdate(UpdateView, LoginRequiredMixin):
                             elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
                                 form.add_error("diraum","Raum bereits belegt.")
                                 return self.form_invalid(form)
-                    be2 = models.Belegung.objects.create(raum=form.instance.diraum, tag='di', beginn=b, ende=e)
+                    be2 = models.Belegung.objects.create(raum=form.instance.diraum, tag='di', beginn=b, ende=e, course=line.di)
                 if line2.miraum:
                     if line2.miraum.belegung_set:
                         try:
@@ -161,7 +172,7 @@ class ZeileUpdate(UpdateView, LoginRequiredMixin):
                             elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
                                 form.add_error("miraum","Raum bereits belegt.")
                                 return self.form_invalid(form)
-                    be3 = models.Belegung.objects.create(raum=form.instance.miraum, tag='mi', beginn=b, ende=e)
+                    be3 = models.Belegung.objects.create(raum=form.instance.miraum, tag='mi', beginn=b, ende=e, course=line.mi)
                 if line2.doraum:
                     if line2.doraum.belegung_set:
                         try:
@@ -180,7 +191,7 @@ class ZeileUpdate(UpdateView, LoginRequiredMixin):
                             elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
                                 form.add_error("doraum","Raum bereits belegt.")
                                 return self.form_invalid(form)
-                    be4 = models.Belegung.objects.create(raum=form.instance.doraum, tag='do', beginn=b, ende=e)
+                    be4 = models.Belegung.objects.create(raum=form.instance.doraum, tag='do', beginn=b, ende=e, course=line.do)
                 if line2.frraum:
                     if line2.frraum.belegung_set:
                         try:
@@ -199,7 +210,7 @@ class ZeileUpdate(UpdateView, LoginRequiredMixin):
                             elif (i.beginn >= line.beginn) and (i.beginn < line.ende) and (i.ende > line.beginn) and (i.ende <= line.ende):
                                 form.add_error("frraum","Raum bereits belegt.")
                                 return self.form_invalid(form)
-                    be5 = models.Belegung.objects.create(raum=form.instance.frraum, tag='fr', beginn=b, ende=e)
+                    be5 = models.Belegung.objects.create(raum=form.instance.frraum, tag='fr', beginn=b, ende=e, course=line.fr)
                 return super().form_valid(form)
             elif b:
                 form.add_error("ende","Ende wird benötigt.")
@@ -227,6 +238,10 @@ def zeile_add(request, pk):
 class PlanDelete(DeleteView, LoginRequiredMixin):
     model = models.Stundenplan
     success_url = reverse_lazy('accounts:klassenuebersicht')
+
+class PlanDetailPdf(WeasyTemplateResponseMixin, DetailView, LoginRequiredMixin):
+    model = models.Stundenplan
+    template_name = 'accounts/stundenplan_pdf.html'
 
 class PlanDetail(DetailView, LoginRequiredMixin):
     model = models.Stundenplan

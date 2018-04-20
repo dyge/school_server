@@ -1,0 +1,35 @@
+{% extends "base_lehrer.html" %}
+{% load bootstrap3 %}
+{% block styling %}
+p, li{
+  color: #FFFAFF;
+}
+.tab{
+  margin-left: 10px;
+}
+{% endblock %}
+{% block body %}
+<p><a href="{% url 'accounts:raum_detail' pk=object.id %}">Zurück</a> <span style="float:right;"><a href="{% url 'accounts:belegung_pdf' pk=object.id %}">Als PDF anzeigen</a></span></p>
+<h3>Raum: {{ object.bezeichnung }}</h3>
+{% if object.belegung_set.all %}
+<h4>Belegungen:</h4>
+<table>
+  <tr>
+    <th>Tag</th>
+    <th>Zeit</th>
+    <th>Kurs</th>
+    <th>Lehrer</th>
+  </tr>
+  {% for b in object.belegung_set.all|dictsort:"tag"|dictsort:"beginn" %}
+    <tr>
+      <td>{{ b.get_tag_display }}</td>
+      <td>{{ b.beginn }} - {{ b.ende }}</td>
+      <td>{{ b.course }}</td>
+      <th>{{ b.course.lehrer }}</th>
+    </tr>
+  {% endfor %}
+</table>
+{% else %}
+<h4>Keine Belegungen.</h4>
+{% endif %}
+{% endblock %}

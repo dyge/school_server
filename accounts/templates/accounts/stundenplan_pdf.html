@@ -1,0 +1,58 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body{
+        font-size: 1.0em;
+      }
+      table, th, td{
+        border: 1px solid #000000;
+        padding: 5px;
+      }
+      br{
+        line-height: 160%;
+      }
+      .myline{
+        line-height: 170%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Klasse {{ object.klasse }}: {{ object.name }}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Zeit</th>
+            <th>Montag</th>
+            <th>Dienstag</th>
+            <th>Mittwoch</th>
+            <th>Donnerstag</th>
+            <th>Freitag</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for z in object.zeile_set.all %}
+            <tr>
+              {% if z.beginn and z.ende %}
+                <td><div class="myline">{{ z.beginn }} - {{ z.ende }}</div></td>
+              {% else %}
+                <td></td>
+              {% endif %}
+              <td>{% if z.mo %}{{ z.mo }}<br/>{% if z.molehrer %}{{ z.molehrer }}{% else %}{{ z.mo.lehrer }}{% endif %}{% endif %}<br/>{% if z.moraum %}Raum {{ z.moraum }}{% endif %}</td>
+              <td>{% if z.di %}{{ z.di }}<br/>{% if z.dilehrer %}{{ z.dilehrer }}{% else %}{{ z.di.lehrer }}{% endif %}{% endif %}<br/>{% if z.diraum %}Raum {{ z.diraum }}{% endif %}</td>
+              <td>{% if z.mi %}{{ z.mi }}<br/>{% if z.milehrer %}{{ z.milehrer }}{% else %}{{ z.mi.lehrer }}{% endif %}{% endif %}<br/>{% if z.miraum %}Raum {{ z.miraum }}{% endif %}</td>
+              <td>{% if z.do %}{{ z.do }}<br/>{% if z.dolehrer %}{{ z.dolehrer }}{% else %}{{ z.do.lehrer }}{% endif %}{% endif %}<br/>{% if z.doraum %}Raum {{ z.doraum }}{% endif %}</td>
+              <td>{% if z.fr %}{{ z.fr }}<br/>{% if z.frlehrer %}{{ z.frlehrer }}{% else %}{{ z.fr.lehrer }}{% endif %}{% endif %}<br/>{% if z.frraum %}Raum {{ z.frraum }}{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6">Keine Einträge.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

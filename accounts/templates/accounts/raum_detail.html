@@ -5,12 +5,13 @@ p, li{
   color: #FFFAFF;
 }
 .tab{
-  margin-left: 20px;
+  margin-left: 10px;
 }
 {% endblock %}
 {% block body %}
 <p><a href="{% url 'accounts:raum_list' %}">Zurück</a></p>
 <h3>Raum: {{ object.bezeichnung }}</h3>
+<p><a href="{% url 'accounts:raum_belegung' pk=object.id %}">Belegungsplan</a></p>
 <h4>Ausstattung:</h4>
 {% if object.beschreibung %}
   <div class="tab">

@@ -66,5 +66,8 @@ urlpatterns = [
     url(r'raum/(?P<pk>\d+)/update/$', views.RaumUpdate.as_view(), name='raum_up'),
     url(r'raum/(?P<pk>\d+)/detail/$', views.RaumDetail.as_view(), name='raum_detail'),
     url(r'lehrer/pk/stundenplan/detail/$', views.lehrer_plan_detail_pk, name='lehrer_plan_detail'),
+    url(r'schueler/plan/(?P<pk>\d+)/pdf/$', views.PlanDetailPdf.as_view(), name='schueler_plan_pdf'),
+    url(r'raum/belegung/(?P<pk>\d+)/$', views.BelegungListe.as_view(), name='raum_belegung'),
+    url(r'raum/belegung/pdf/(?P<pk>\d+)/$', views.BelegungPdf.as_view(), name='belegung_pdf'),
 
 ]

@@ -1,0 +1,47 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body{
+        font-size: 1.0em;
+      }
+      table, th, td{
+        border: 1px solid #000000;
+        padding: 5px;
+      }
+      br{
+        line-height: 160%;
+      }
+      .myline{
+        line-height: 170%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Raum: {{ object.bezeichnung }}</h3>
+      {% if object.belegung_set.all %}
+      <h4>Belegungen:</h4>
+      <table>
+        <tr>
+          <th>Tag</th>
+          <th>Zeit</th>
+          <th>Kurs</th>
+          <th>Lehrer</th>
+        </tr>
+        {% for b in object.belegung_set.all|dictsort:"tag"|dictsort:"beginn" %}
+          <tr>
+            <td>{{ b.get_tag_display }}</td>
+            <td>{{ b.beginn }} - {{ b.ende }}</td>
+            <td>{{ b.course }}</td>
+            <th>{{ b.course.lehrer }}</th>
+          </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <h4>Keine Belegungen.</h4>
+      {% endif %}
+    </div>
+  </body>
+</html>
